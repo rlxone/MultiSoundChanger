@@ -95,16 +95,8 @@
 		4743EFBC1E914B270032F5AA /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				4743EFBD1E914B480032F5AA /* Main */,
 			);
 			name = Controllers;
-			sourceTree = "<group>";
-		};
-		4743EFBD1E914B480032F5AA /* Main */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Main;
 			sourceTree = "<group>";
 		};
 		47E683041E91BC6200C525F7 /* Framework */ = {
