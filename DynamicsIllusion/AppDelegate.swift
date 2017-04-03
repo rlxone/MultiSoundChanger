@@ -12,50 +12,41 @@ import Cocoa
 class AppDelegate: NSObject, NSApplicationDelegate {
     
     let statusItem = NSStatusBar.system().statusItem(withLength: -2)
-    let popover = NSPopover()
-    var eventMonitor: EventMonitor?
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        
+        setupApp()
+    }
+    
+    func setupApp() {
+        createMenu()
+    }
+    
+    func createMenu() {
         if let button = statusItem.button {
-            button.image = NSImage(named: "StatusBarIcon")
-            button.action = #selector(AppDelegate.togglePopover(_:))
+            button.image = NSImage(named: "StatusBarImage")
+            button.action = #selector(self.statusBarAction)
         }
-        
-        let mainViewController = NSStoryboard(name: "Main", bundle: nil).instantiateController(withIdentifier: "ViewControllerId") as! ViewController
-        
-        popover.contentViewController = mainViewController
-        
-        eventMonitor = EventMonitor(mask: [.leftMouseDown, .rightMouseDown]) { [unowned self] event in
-            if self.popover.isShown {
-                self.closePopover(event)
-            }
+        let menu = NSMenu()
+        let devices = Audio.getOutputDevices()
+        for device in devices! {
+            let item = NSMenuItem(title: device.value, action: #selector(self.itemAction), keyEquivalent: "q")
+            menu.addItem(item)
         }
-        eventMonitor?.start()
+        statusItem.menu = menu
+    }
+    
+    func itemAction(sender: AnyObject) {
+        print("asd")
+    }
+    
+    func statusBarAction(sender: AnyObject) {
+        let quoteText = "Never put off until tomorrow what you can do the day after tomorrow."
+        let quoteAuthor = "Mark Twain"
+        
+        print("\(quoteText) — \(quoteAuthor)")
     }
     
     func applicationWillTerminate(_ aNotification: Notification) {
     }
-    
-    func togglePopover(_ sender: AnyObject?) {
-        if popover.isShown {
-            closePopover(sender)
-        } else {
-            showPopover(sender)
-        }
-    }
-    
-    func showPopover(_ sender: AnyObject?) {
-        if let button = statusItem.button {
-            popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
-        }
-        eventMonitor?.start()
-    }
-    
-    func closePopover(_ sender: AnyObject?) {
-        popover.performClose(sender)
-        eventMonitor?.stop()
-    }
-    
 }
 

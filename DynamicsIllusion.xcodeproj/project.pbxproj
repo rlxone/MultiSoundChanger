@@ -11,8 +11,8 @@
 		4743EFAD1E91493B0032F5AA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4743EFAC1E91493B0032F5AA /* ViewController.swift */; };
 		4743EFAF1E91493B0032F5AA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4743EFAE1E91493B0032F5AA /* Assets.xcassets */; };
 		4743EFB21E91493B0032F5AA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4743EFB01E91493B0032F5AA /* Main.storyboard */; };
-		4743EFDC1E91728C0032F5AA /* EventMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4743EFDB1E91728C0032F5AA /* EventMonitor.swift */; };
 		4743EFDE1E91A63E0032F5AA /* MainWindowsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4743EFDD1E91A63E0032F5AA /* MainWindowsController.swift */; };
+		47E683071E91BCA300C525F7 /* Audio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E683061E91BCA300C525F7 /* Audio.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,8 +22,8 @@
 		4743EFAE1E91493B0032F5AA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4743EFB11E91493B0032F5AA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4743EFB31E91493B0032F5AA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4743EFDB1E91728C0032F5AA /* EventMonitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventMonitor.swift; sourceTree = "<group>"; };
 		4743EFDD1E91A63E0032F5AA /* MainWindowsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainWindowsController.swift; path = DynamicsIllusion/Controllers/Main/MainWindowsController.swift; sourceTree = "<group>"; };
+		47E683061E91BCA300C525F7 /* Audio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Audio.swift; path = Framework/Audio.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +57,7 @@
 		4743EFA91E91493B0032F5AA /* DynamicsIllusion */ = {
 			isa = PBXGroup;
 			children = (
+				47E683041E91BC6200C525F7 /* Framework */,
 				4743EFBC1E914B270032F5AA /* Controllers */,
 				4743EFBB1E914B210032F5AA /* Storyboards */,
 				4743EFBA1E914B1B0032F5AA /* Views */,
@@ -66,7 +67,6 @@
 				4743EFAE1E91493B0032F5AA /* Assets.xcassets */,
 				4743EFB01E91493B0032F5AA /* Main.storyboard */,
 				4743EFB31E91493B0032F5AA /* Info.plist */,
-				4743EFDB1E91728C0032F5AA /* EventMonitor.swift */,
 			);
 			path = DynamicsIllusion;
 			sourceTree = "<group>";
@@ -105,6 +105,14 @@
 			children = (
 			);
 			name = Main;
+			sourceTree = "<group>";
+		};
+		47E683041E91BC6200C525F7 /* Framework */ = {
+			isa = PBXGroup;
+			children = (
+				47E683061E91BCA300C525F7 /* Audio.swift */,
+			);
+			name = Framework;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -182,7 +190,7 @@
 				4743EFAD1E91493B0032F5AA /* ViewController.swift in Sources */,
 				4743EFAB1E91493B0032F5AA /* AppDelegate.swift in Sources */,
 				4743EFDE1E91A63E0032F5AA /* MainWindowsController.swift in Sources */,
-				4743EFDC1E91728C0032F5AA /* EventMonitor.swift in Sources */,
+				47E683071E91BCA300C525F7 /* Audio.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -339,6 +347,7 @@
 				4743EFB81E91493B0032F5AA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
