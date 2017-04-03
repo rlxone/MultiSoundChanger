@@ -33,7 +33,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func createMenu() {
         if let button = statusItem.button {
-            button.image = NSImage(named: "StatusBarImage")
+            button.image = NSImage(named: "StatusBar1Image")
             button.action = #selector(self.statusBarAction)
         }
         
@@ -51,9 +51,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         item.isEnabled = false
         menu.addItem(item)
         
+        let defaultDevice = Audio.getDefaultOutputDevice()
+        
         for device in devices! {
             let item = NSMenuItem(title: device.value.truncate(length: 25, trailing: "..."), action: #selector(self.menuItemAction), keyEquivalent: "")
             item.tag = Int(device.key)
+            if device.key == defaultDevice {
+                item.state = NSOnState
+                print(Audio.getDeviceVolume(deviceID: defaultDevice).first!)
+                volumeViewController?.selectedDevices = [defaultDevice]
+                volumeViewController?.volumeSlider.floatValue = Audio.getDeviceVolume(deviceID: defaultDevice).first! * 100
+            }
             menu.addItem(item)
         }
         
@@ -72,13 +80,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 }
                 let deviceID = AudioDeviceID(item.tag)
                 if Audio.isAggregateDevice(deviceID: deviceID) {
-                    print("aggregate!")
                     volumeViewController?.selectedDevices = Audio.getAggregateDeviceSubDeviceList(deviceID: deviceID)
                 } else {
                     volumeViewController?.selectedDevices = [deviceID]
-                    print("not aggregate!")
                 }
-                
+                Audio.setOutputDevice(newDeviceID: deviceID)
             } else {
                 item.state = NSOffState
             }
