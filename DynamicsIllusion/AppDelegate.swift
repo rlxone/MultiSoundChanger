@@ -31,6 +31,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let menu = NSMenu()
         for device in devices! {
             let item = NSMenuItem(title: device.value, action: #selector(self.menuItemAction), keyEquivalent: "")
+            item.tag = Int(device.key)
             menu.addItem(item)
         }
         statusItem.menu = menu
@@ -42,9 +43,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 if item.state == NSOffState {
                     item.state = NSOnState
                 }
+                print(Audio.getAggregateDeviceSubDeviceList(deviceID: AudioDeviceID(item.tag)))
             } else {
                 item.state = NSOffState
-                print(Audio.getAggregateDeviceSubDeviceList(deviceID: AudioDeviceID(56)))
             }
         }
     }
