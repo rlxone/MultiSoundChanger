@@ -683,11 +683,11 @@
             <objects>
                 <viewController title="DynamicsIllusion" storyboardIdentifier="ViewControllerId" id="XfG-lQ-9wD" customClass="ViewController" customModule="DynamicsIllusion" customModuleProvider="target" sceneMemberID="viewController">
                     <customView key="view" id="yXR-gt-ROz">
-                        <rect key="frame" x="0.0" y="0.0" width="310" height="23"/>
+                        <rect key="frame" x="0.0" y="0.0" width="253" height="23"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <subviews>
                             <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ZP8-R9-Co6">
-                                <rect key="frame" x="18" y="2" width="274" height="19"/>
+                                <rect key="frame" x="18" y="2" width="217" height="19"/>
                                 <sliderCell key="cell" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="mBY-wO-jDr"/>
                                 <connections>
                                     <action selector="volumeSliderAction:" target="XfG-lQ-9wD" id="2q5-YA-fc5"/>
@@ -707,7 +707,7 @@
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-100" y="550.5"/>
+            <point key="canvasLocation" x="-128.5" y="550.5"/>
         </scene>
     </scenes>
 </document>

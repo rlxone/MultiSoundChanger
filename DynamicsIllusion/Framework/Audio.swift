@@ -111,4 +111,23 @@ public class Audio {
         return subDevices
     }
     
+    private static func getDeviceTransportType(deviceID: AudioDeviceID) -> AudioDevicePropertyID {
+        var deviceTransportType = AudioDevicePropertyID()
+        var propertySize = UInt32(MemoryLayout<AudioDevicePropertyID>.size)
+        
+        var propertyAddress = AudioObjectPropertyAddress(
+            mSelector: AudioObjectPropertySelector(kAudioDevicePropertyTransportType),
+            mScope: AudioObjectPropertyScope(kAudioObjectPropertyScopeGlobal),
+            mElement: AudioObjectPropertyElement(kAudioObjectPropertyElementMaster))
+        
+        AudioObjectGetPropertyData(deviceID, &propertyAddress, 0, nil, &propertySize, &deviceTransportType)
+        
+        return deviceTransportType
+    }
+    
+    static func isAggregateDevice(deviceID: AudioDeviceID) -> Bool {
+        let deviceType = getDeviceTransportType(deviceID: deviceID)
+        return deviceType == kAudioDeviceTransportTypeAggregate
+    }
+    
 }

@@ -24,6 +24,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         createMenu()
     }
     
+    func loadViewFromStoryboard(name: String, identifier: String) -> Any {
+        let storyboard = NSStoryboard(name: "Main", bundle: nil)
+        return storyboard.instantiateController(withIdentifier: "ViewControllerId")
+    }
+    
     func createMenu() {
         if let button = statusItem.button {
             button.image = NSImage(named: "StatusBarImage")
@@ -36,9 +41,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(item)
         
         item = NSMenuItem(title: "asdsa", action: #selector(self.menuItemAction), keyEquivalent: "")
-        let view = NSView(frame: NSRect(x: 0, y: 0, width: 200, height: 20))
-        let storyboard = NSStoryboard(name: "Main", bundle: nil)
-        let controller = storyboard.instantiateController(withIdentifier: "ViewControllerId") as! ViewController
+        let controller = loadViewFromStoryboard(name: "Main", identifier: "ViewControllerId") as! ViewController
         item.view = controller.view
         menu.addItem(item)
         
@@ -47,10 +50,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(item)
         
         for device in devices! {
-            let item = NSMenuItem(title: device.value, action: #selector(self.menuItemAction), keyEquivalent: "")
+            let item = NSMenuItem(title: device.value.truncate(length: 25, trailing: "..."), action: #selector(self.menuItemAction), keyEquivalent: "")
             item.tag = Int(device.key)
             menu.addItem(item)
         }
+        
         statusItem.menu = menu
     }
     
@@ -64,7 +68,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 if item.state == NSOffState {
                     item.state = NSOnState
                 }
-                print(Audio.getAggregateDeviceSubDeviceList(deviceID: AudioDeviceID(item.tag)))
+                let deviceID = AudioDeviceID(item.tag)
+                if Audio.isAggregateDevice(deviceID: deviceID) {
+                    print("aggregate!")
+                    print(Audio.getAggregateDeviceSubDeviceList(deviceID: deviceID))
+                } else {
+                    print("not aggregate!")
+                }
+                
             } else {
                 item.state = NSOffState
             }
