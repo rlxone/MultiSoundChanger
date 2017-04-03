@@ -8,6 +8,7 @@
 
 import Cocoa
 import AudioToolbox
+import ScriptingBridge
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -78,11 +79,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             menu.addItem(item)
         }
         
+        menu.addItem(NSMenuItem.separator())
+        
+        item = NSMenuItem(title: "Quit", action: #selector(self.menuQuitAction), keyEquivalent: "q")
+        menu.addItem(item)
+        
         statusItem.menu = menu
     }
     
     override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         return menuItem.isEnabled
+    }
+    
+    func menuQuitAction() {
+        NSApplication.shared().terminate(self)
+        
     }
     
     func menuItemAction(sender: NSMenuItem) {
