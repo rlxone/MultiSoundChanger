@@ -14,7 +14,7 @@ public class Audio {
     
     static func getOutputDevices() -> [AudioDeviceID: String]? {
         var result: [AudioDeviceID: String] = [:]
-        var devices = getAllDevices()
+        let devices = getAllDevices()
         
         for device in devices {
             if isOutputDevice(deviceID: device) {

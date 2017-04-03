@@ -11,7 +11,8 @@ import Cocoa
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     
-    let statusItem = NSStatusBar.system().statusItem(withLength: -2)
+    let statusItem = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
+    let devices = Audio.getOutputDevices()
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         setupApp()
@@ -27,23 +28,28 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             button.action = #selector(self.statusBarAction)
         }
         let menu = NSMenu()
-        let devices = Audio.getOutputDevices()
         for device in devices! {
-            let item = NSMenuItem(title: device.value, action: #selector(self.itemAction), keyEquivalent: "q")
+            let item = NSMenuItem(title: device.value, action: #selector(self.menuItemAction), keyEquivalent: "")
             menu.addItem(item)
         }
         statusItem.menu = menu
     }
     
-    func itemAction(sender: AnyObject) {
-        print("asd")
+    func menuItemAction(sender: NSMenuItem) {
+        for item in (statusItem.menu?.items)! {
+            if item == sender {
+                if item.state == NSOffState {
+                    item.state = NSOnState
+                }
+            } else {
+                item.state = NSOffState
+            }
+        }
     }
     
     func statusBarAction(sender: AnyObject) {
-        let quoteText = "Never put off until tomorrow what you can do the day after tomorrow."
-        let quoteAuthor = "Mark Twain"
-        
-        print("\(quoteText) — \(quoteAuthor)")
+        print(sender)
+
     }
     
     func applicationWillTerminate(_ aNotification: Notification) {
