@@ -51,7 +51,7 @@ public class Audio {
         return propertySize / UInt32(MemoryLayout<AudioDeviceID>.size)
     }
     
-    private static func isOutputDevice(deviceID: AudioDeviceID) -> Bool {
+    static func isOutputDevice(deviceID: AudioDeviceID) -> Bool {
         var propertySize: UInt32 = 256
         
         var propertyAddress = AudioObjectPropertyAddress(

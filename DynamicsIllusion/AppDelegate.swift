@@ -22,7 +22,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func setupApp() {
-        volumeViewController = self.loadViewFromStoryboard(name: "Main", identifier: "ViewControllerId") as! VolumeViewController
+        volumeViewController = self.loadViewFromStoryboard(name: "Main", identifier: "ViewControllerId") as? VolumeViewController
         createMenu()
     }
     
@@ -58,9 +58,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             item.tag = Int(device.key)
             if device.key == defaultDevice {
                 item.state = NSOnState
-                print(Audio.getDeviceVolume(deviceID: defaultDevice).first!)
-                volumeViewController?.selectedDevices = [defaultDevice]
-                volumeViewController?.volumeSlider.floatValue = Audio.getDeviceVolume(deviceID: defaultDevice).first! * 100
+                if Audio.isAggregateDevice(deviceID: defaultDevice) {
+                    volumeViewController?.selectedDevices = Audio.getAggregateDeviceSubDeviceList(deviceID: defaultDevice)
+                    for device in (volumeViewController?.selectedDevices!)! {
+                        if Audio.isOutputDevice(deviceID: device) {
+                            let volume = Audio.getDeviceVolume(deviceID: device).first! * 100
+                            volumeViewController?.volumeSlider.floatValue = volume
+                            volumeViewController?.changeStatusItemImage(value: volume)
+                            break
+                        }
+                    }
+                } else {
+                    volumeViewController?.selectedDevices = [defaultDevice]
+                    let volume = Audio.getDeviceVolume(deviceID: defaultDevice).first! * 100
+                    volumeViewController?.volumeSlider.floatValue = volume
+                    volumeViewController?.changeStatusItemImage(value: volume)
+                }
             }
             menu.addItem(item)
         }

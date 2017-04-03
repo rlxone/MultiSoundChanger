@@ -30,18 +30,22 @@ class VolumeViewController: NSViewController, NSTableViewDataSource {
         }
     }
     
-    @IBAction func volumeSliderAction(_ sender: Any) {
-        changeVolume(value: volumeSlider.floatValue / 100)
+    func changeStatusItemImage(value: Float) {
         let appDelegate = NSApplication.shared().delegate as! AppDelegate
-        if volumeSlider.floatValue < Float(StatusBarImageProgress.first.rawValue) {
+        if value < Float(StatusBarImageProgress.first.rawValue) {
             appDelegate.statusItem.button?.image = NSImage(named: "StatusBar1Image")
-        } else if volumeSlider.floatValue > Float(StatusBarImageProgress.first.rawValue) && volumeSlider.floatValue < Float(StatusBarImageProgress.second.rawValue) {
+        } else if value > Float(StatusBarImageProgress.first.rawValue) && value < Float(StatusBarImageProgress.second.rawValue) {
             appDelegate.statusItem.button?.image = NSImage(named: "StatusBar2Image")
-        } else if volumeSlider.floatValue > Float(StatusBarImageProgress.second.rawValue) && volumeSlider.floatValue < Float(StatusBarImageProgress.third.rawValue) {
+        } else if value > Float(StatusBarImageProgress.second.rawValue) && value < Float(StatusBarImageProgress.third.rawValue) {
             appDelegate.statusItem.button?.image = NSImage(named: "StatusBar3Image")
-        } else if volumeSlider.floatValue > Float(StatusBarImageProgress.second.rawValue) && volumeSlider.floatValue < 100 {
+        } else if value > Float(StatusBarImageProgress.second.rawValue) && value < 100 {
             appDelegate.statusItem.button?.image = NSImage(named: "StatusBar4Image")
         }
+    }
+    
+    @IBAction func volumeSliderAction(_ sender: Any) {
+        changeVolume(value: volumeSlider.floatValue / 100)
+        changeStatusItemImage(value: volumeSlider.floatValue)
         //appDelegate.statusItem.button?.image =
     }
     
