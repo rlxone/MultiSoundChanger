@@ -681,7 +681,7 @@
         <!--DynamicsIllusion-->
         <scene sceneID="hIz-AP-VOD">
             <objects>
-                <viewController title="DynamicsIllusion" storyboardIdentifier="ViewControllerId" id="XfG-lQ-9wD" customClass="VolumeViewController" customModule="DynamicsIllusion" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="DynamicsIllusion" storyboardIdentifier="VolumeViewControllerId" id="XfG-lQ-9wD" customClass="VolumeViewController" customModule="DynamicsIllusion" sceneMemberID="viewController">
                     <customView key="view" id="yXR-gt-ROz">
                         <rect key="frame" x="0.0" y="0.0" width="253" height="23"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>

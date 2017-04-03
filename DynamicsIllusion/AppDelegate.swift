@@ -3,7 +3,7 @@
 //  DynamicsIllusion
 //
 //  Created by sdd on 02.04.17.
-//  Copyright © 2017 mityny. All rights reserved.
+//  Copyright © 2017 rlxone. All rights reserved.
 //
 
 import Cocoa
@@ -22,7 +22,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func setupApp() {
-        volumeViewController = self.loadViewFromStoryboard(named: "Main", identifier: "VolumeViewControllerId") as? VolumeViewController
+        volumeViewController = loadViewFromStoryboard(named: "Main", identifier: "VolumeViewControllerId") as? VolumeViewController
         createMenu()
     }
     

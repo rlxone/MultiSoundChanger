@@ -3,7 +3,7 @@
 //  DynamicsIllusion
 //
 //  Created by sdd on 02.04.17.
-//  Copyright © 2017 mityny. All rights reserved.
+//  Copyright © 2017 rlxone. All rights reserved.
 //
 
 import Cocoa
@@ -38,7 +38,7 @@ class VolumeViewController: NSViewController, NSTableViewDataSource {
             appDelegate.statusItem.button?.image = NSImage(named: "StatusBar2Image")
         } else if value > Float(StatusBarImageProgress.second.rawValue) && value < Float(StatusBarImageProgress.third.rawValue) {
             appDelegate.statusItem.button?.image = NSImage(named: "StatusBar3Image")
-        } else if value > Float(StatusBarImageProgress.second.rawValue) && value < 100 {
+        } else if value > Float(StatusBarImageProgress.second.rawValue) && value <= 100 {
             appDelegate.statusItem.button?.image = NSImage(named: "StatusBar4Image")
         }
     }

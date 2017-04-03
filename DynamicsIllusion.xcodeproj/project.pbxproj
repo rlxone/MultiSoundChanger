@@ -308,7 +308,7 @@
 				DEVELOPMENT_TEAM = C6Z5KNNJ86;
 				INFOPLIST_FILE = DynamicsIllusion/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.mityny.DynamicsIllusion;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rlxone.DynamicsIllusion;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -322,7 +322,7 @@
 				DEVELOPMENT_TEAM = C6Z5KNNJ86;
 				INFOPLIST_FILE = DynamicsIllusion/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.mityny.DynamicsIllusion;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rlxone.DynamicsIllusion;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
