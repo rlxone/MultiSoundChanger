@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import AudioToolbox
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -43,13 +44,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 }
             } else {
                 item.state = NSOffState
+                print(Audio.getAggregateDeviceSubDeviceList(deviceID: AudioDeviceID(56)))
             }
         }
     }
     
     func statusBarAction(sender: AnyObject) {
-        print(sender)
-
+        
     }
     
     func applicationWillTerminate(_ aNotification: Notification) {

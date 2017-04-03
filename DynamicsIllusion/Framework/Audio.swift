@@ -38,6 +38,19 @@ public class Audio {
         return propertySize / UInt32(MemoryLayout<AudioDeviceID>.size)
     }
     
+    private static func getNumberOfSubDevices(deviceID: AudioDeviceID) -> UInt32 {
+        var propertySize: UInt32 = 0
+        
+        var propertyAddress = AudioObjectPropertyAddress(
+            mSelector: AudioObjectPropertySelector(kAudioAggregateDevicePropertyActiveSubDeviceList),
+            mScope: AudioObjectPropertyScope(kAudioObjectPropertyScopeGlobal),
+            mElement: AudioObjectPropertyElement(kAudioObjectPropertyElementMaster))
+        
+        _ = AudioObjectGetPropertyDataSize(deviceID, &propertyAddress, 0, nil, &propertySize)
+        
+        return propertySize / UInt32(MemoryLayout<AudioDeviceID>.size)
+    }
+    
     private static func isOutputDevice(deviceID: AudioDeviceID) -> Bool {
         var propertySize: UInt32 = 256
         
@@ -67,7 +80,7 @@ public class Audio {
     }
     
     private static func getAllDevices() -> [AudioDeviceID] {
-        var devicesCount = getNumberOfDevices()
+        let devicesCount = getNumberOfDevices()
         var devices = [AudioDeviceID](repeating: 0, count: Int(devicesCount))
         
         var propertyAddress = AudioObjectPropertyAddress(
@@ -81,5 +94,21 @@ public class Audio {
         
         return devices
     }
+    
+    static func getAggregateDeviceSubDeviceList(deviceID: AudioDeviceID) -> [AudioDeviceID] {
+        let subDevicesCount = getNumberOfSubDevices(deviceID: deviceID)
+        var subDevices = [AudioDeviceID](repeating: 0, count: Int(subDevicesCount))
         
+        var propertyAddress = AudioObjectPropertyAddress(
+            mSelector: AudioObjectPropertySelector(kAudioAggregateDevicePropertyActiveSubDeviceList),
+            mScope: AudioObjectPropertyScope(kAudioObjectPropertyScopeGlobal),
+            mElement: AudioObjectPropertyElement(kAudioObjectPropertyElementMaster))
+        
+        var subDevicesSize = subDevicesCount * UInt32(MemoryLayout<UInt32>.size)
+        
+        AudioObjectGetPropertyData(deviceID, &propertyAddress, 0, nil, &subDevicesSize, &subDevices)
+        
+        return subDevices
+    }
+    
 }
