@@ -11,7 +11,6 @@
 		4743EFAD1E91493B0032F5AA /* VolumeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4743EFAC1E91493B0032F5AA /* VolumeViewController.swift */; };
 		4743EFAF1E91493B0032F5AA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4743EFAE1E91493B0032F5AA /* Assets.xcassets */; };
 		4743EFB21E91493B0032F5AA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4743EFB01E91493B0032F5AA /* Main.storyboard */; };
-		4743EFDE1E91A63E0032F5AA /* MainWindowsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4743EFDD1E91A63E0032F5AA /* MainWindowsController.swift */; };
 		47E683071E91BCA300C525F7 /* Audio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E683061E91BCA300C525F7 /* Audio.swift */; };
 		47E6830E1E9273EC00C525F7 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E6830D1E9273EC00C525F7 /* StringExtensions.swift */; };
 /* End PBXBuildFile section */
@@ -23,7 +22,6 @@
 		4743EFAE1E91493B0032F5AA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4743EFB11E91493B0032F5AA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4743EFB31E91493B0032F5AA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4743EFDD1E91A63E0032F5AA /* MainWindowsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainWindowsController.swift; path = DynamicsIllusion/Controllers/Main/MainWindowsController.swift; sourceTree = "<group>"; };
 		47E683061E91BCA300C525F7 /* Audio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Audio.swift; path = Framework/Audio.swift; sourceTree = "<group>"; };
 		47E6830D1E9273EC00C525F7 /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StringExtensions.swift; path = Extensions/StringExtensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -42,7 +40,6 @@
 		4743EF9E1E91493B0032F5AA = {
 			isa = PBXGroup;
 			children = (
-				4743EFDD1E91A63E0032F5AA /* MainWindowsController.swift */,
 				4743EFA91E91493B0032F5AA /* DynamicsIllusion */,
 				4743EFA81E91493B0032F5AA /* Products */,
 			);
@@ -193,7 +190,6 @@
 				4743EFAD1E91493B0032F5AA /* VolumeViewController.swift in Sources */,
 				4743EFAB1E91493B0032F5AA /* AppDelegate.swift in Sources */,
 				47E6830E1E9273EC00C525F7 /* StringExtensions.swift in Sources */,
-				4743EFDE1E91A63E0032F5AA /* MainWindowsController.swift in Sources */,
 				47E683071E91BCA300C525F7 /* Audio.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

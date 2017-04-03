@@ -46,7 +46,6 @@ class VolumeViewController: NSViewController, NSTableViewDataSource {
     @IBAction func volumeSliderAction(_ sender: Any) {
         changeVolume(value: volumeSlider.floatValue / 100)
         changeStatusItemImage(value: volumeSlider.floatValue)
-        //appDelegate.statusItem.button?.image =
     }
     
     override var representedObject: Any? {
@@ -54,7 +53,6 @@ class VolumeViewController: NSViewController, NSTableViewDataSource {
         // Update the view, if already loaded.
         }
     }
-
 
 }
 

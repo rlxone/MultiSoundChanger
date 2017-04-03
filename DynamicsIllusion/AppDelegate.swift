@@ -22,13 +22,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func setupApp() {
-        volumeViewController = self.loadViewFromStoryboard(name: "Main", identifier: "ViewControllerId") as? VolumeViewController
+        volumeViewController = self.loadViewFromStoryboard(named: "Main", identifier: "VolumeViewControllerId") as? VolumeViewController
         createMenu()
     }
     
-    func loadViewFromStoryboard(name: String, identifier: String) -> Any {
-        let storyboard = NSStoryboard(name: "Main", bundle: nil)
-        return storyboard.instantiateController(withIdentifier: "ViewControllerId")
+    func loadViewFromStoryboard(named: String, identifier: String) -> Any {
+        let storyboard = NSStoryboard(name: named, bundle: nil)
+        return storyboard.instantiateController(withIdentifier: identifier)
     }
     
     func createMenu() {
@@ -105,10 +105,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func statusBarAction(sender: AnyObject) {
-        
+        print("you can update")
     }
     
     func applicationWillTerminate(_ aNotification: Notification) {
+        
     }
 }
 
