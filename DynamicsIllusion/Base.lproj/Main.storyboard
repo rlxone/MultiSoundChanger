@@ -681,14 +681,14 @@
         <!--DynamicsIllusion-->
         <scene sceneID="hIz-AP-VOD">
             <objects>
-                <viewController title="DynamicsIllusion" storyboardIdentifier="ViewControllerId" id="XfG-lQ-9wD" customClass="ViewController" customModule="DynamicsIllusion" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="DynamicsIllusion" storyboardIdentifier="ViewControllerId" id="XfG-lQ-9wD" customClass="VolumeViewController" customModule="DynamicsIllusion" customModuleProvider="target" sceneMemberID="viewController">
                     <customView key="view" id="yXR-gt-ROz">
                         <rect key="frame" x="0.0" y="0.0" width="253" height="23"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <subviews>
                             <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ZP8-R9-Co6">
                                 <rect key="frame" x="18" y="2" width="217" height="19"/>
-                                <sliderCell key="cell" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="mBY-wO-jDr"/>
+                                <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="mBY-wO-jDr"/>
                                 <connections>
                                     <action selector="volumeSliderAction:" target="XfG-lQ-9wD" id="2q5-YA-fc5"/>
                                 </connections>

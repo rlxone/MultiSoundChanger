@@ -15,12 +15,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     let statusItem = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
     let devices = Audio.getOutputDevices()
     let selectedDevices = [AudioDeviceID]()
+    var volumeViewController: VolumeViewController?
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         setupApp()
     }
     
     func setupApp() {
+        volumeViewController = self.loadViewFromStoryboard(name: "Main", identifier: "ViewControllerId") as! VolumeViewController
         createMenu()
     }
     
@@ -34,6 +36,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             button.image = NSImage(named: "StatusBarImage")
             button.action = #selector(self.statusBarAction)
         }
+        
         let menu = NSMenu()
         
         var item = NSMenuItem(title: "Volume:", action: #selector(self.menuItemAction), keyEquivalent: "")
@@ -41,8 +44,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(item)
         
         item = NSMenuItem(title: "asdsa", action: #selector(self.menuItemAction), keyEquivalent: "")
-        let controller = loadViewFromStoryboard(name: "Main", identifier: "ViewControllerId") as! ViewController
-        item.view = controller.view
+        item.view = volumeViewController?.view
         menu.addItem(item)
         
         item = NSMenuItem(title: "Output Devices:", action: #selector(self.menuItemAction), keyEquivalent: "")
@@ -71,8 +73,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 let deviceID = AudioDeviceID(item.tag)
                 if Audio.isAggregateDevice(deviceID: deviceID) {
                     print("aggregate!")
-                    print(Audio.getAggregateDeviceSubDeviceList(deviceID: deviceID))
+                    volumeViewController?.selectedDevices = Audio.getAggregateDeviceSubDeviceList(deviceID: deviceID)
                 } else {
+                    volumeViewController?.selectedDevices = [deviceID]
                     print("not aggregate!")
                 }
                 

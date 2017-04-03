@@ -130,4 +130,31 @@ public class Audio {
         return deviceType == kAudioDeviceTransportTypeAggregate
     }
     
+    static func setDeviceVolume(deviceID: AudioDeviceID, leftChannelLevel: Float, rightChannelLevel: Float) {
+        let channelsCount = 2
+        var channels = [UInt32](repeating: 0, count: channelsCount)
+        var propertySize = UInt32(MemoryLayout<UInt32>.size * channelsCount)
+        var leftLevel = leftChannelLevel
+        var rigthLevel = rightChannelLevel
+        
+        var propertyAddress = AudioObjectPropertyAddress(
+            mSelector: AudioObjectPropertySelector(kAudioDevicePropertyPreferredChannelsForStereo),
+            mScope: AudioObjectPropertyScope(kAudioDevicePropertyScopeOutput),
+            mElement: AudioObjectPropertyElement(kAudioObjectPropertyElementMaster))
+        
+        let status = AudioObjectGetPropertyData(deviceID, &propertyAddress, 0, nil, &propertySize, &channels)
+        
+        if status != noErr { return }
+        
+        propertyAddress.mSelector = kAudioDevicePropertyVolumeScalar
+        propertySize = UInt32(MemoryLayout<Float32>.size)
+        propertyAddress.mElement = channels[0]
+        
+        AudioObjectSetPropertyData(deviceID, &propertyAddress, 0, nil, propertySize, &leftLevel)
+        
+        propertyAddress.mElement = channels[1]
+        
+        AudioObjectSetPropertyData(deviceID, &propertyAddress, 0, nil, propertySize, &rigthLevel)
+    }
+    
 }
