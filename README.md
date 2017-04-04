@@ -17,3 +17,10 @@ For example if you want to play 2 or more output devices at the same time you sh
 * Add our app to startup (if you need)
 
 ![GitHub Logo](https://pp.userapi.com/c636819/v636819907/55c8e/QeAz-PwXh24.jpg)
+
+
+## Inspiration
+* [retrography/audioswitch](https://github.com/retrography/audioswitch)
+
+## Licence
+* This project is released under the Apache 2.0 licence. See LICENCE
