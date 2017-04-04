@@ -1,6 +1,9 @@
- # MultiSound Changer for MacOS
+ ## MultiSound Changer for MacOS
+ Latest release https://github.com/rlxone/MultiSoundChanger/releases
  
  A small tool for changing sound volume **even for aggregate devices** cause native sound volume controller can't change volume of aggregate devices (it was always pain in the ass with my laptop).
+ 
+
 
 Features:
 * **Changing sound volume of every device** (even virtual aggregate device volume by changing volume of every device in aggregate device)
@@ -8,6 +11,8 @@ Features:
 * Native appearance (looks like native volume controller)
 
 I think it can be very useful if you're using VoodooHDA with 4.0+ sound on the board (my use case), but you can find another use cases.
+
+## Usage
 
 For example if you want to play 2 or more output devices at the same time you should:
 * Create aggregate device in Audio MIDI Setup
