@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  DynamicsIllusion
 //
-//  Created by sdd on 02.04.17.
+//  Created by rlxone on 02.04.17.
 //  Copyright © 2017 rlxone. All rights reserved.
 //
 
@@ -44,7 +44,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         item.isEnabled = false
         menu.addItem(item)
         
-        item = NSMenuItem(title: "asdsa", action: #selector(self.menuItemAction), keyEquivalent: "")
+        item = NSMenuItem(title: "", action: #selector(self.menuItemAction), keyEquivalent: "")
         item.view = volumeViewController?.view
         menu.addItem(item)
         
@@ -87,10 +87,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem.menu = menu
     }
     
-    override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
-        return menuItem.isEnabled
-    }
-    
     func menuQuitAction() {
         NSApplication.shared().terminate(self)
         
@@ -117,6 +113,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func statusBarAction(sender: AnyObject) {
         print("you can update")
+    }
+    
+    override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+        return menuItem.isEnabled
     }
     
     func applicationWillTerminate(_ aNotification: Notification) {

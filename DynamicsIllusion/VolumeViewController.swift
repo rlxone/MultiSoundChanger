@@ -2,19 +2,12 @@
 //  ViewController.swift
 //  DynamicsIllusion
 //
-//  Created by sdd on 02.04.17.
+//  Created by rlxone on 02.04.17.
 //  Copyright © 2017 rlxone. All rights reserved.
 //
 
 import Cocoa
 import AudioToolbox
-
-enum StatusBarImageProgress: Int {
-    case none = 0
-    case first = 1
-    case second = 36
-    case third = 72
-}
 
 class VolumeViewController: NSViewController, NSTableViewDataSource {
     
@@ -32,13 +25,13 @@ class VolumeViewController: NSViewController, NSTableViewDataSource {
     
     func changeStatusItemImage(value: Float) {
         let appDelegate = NSApplication.shared().delegate as! AppDelegate
-        if value < Float(StatusBarImageProgress.first.rawValue) {
+        if value < 1 {
             appDelegate.statusItem.button?.image = NSImage(named: "StatusBar1Image")
-        } else if value > Float(StatusBarImageProgress.first.rawValue) && value < Float(StatusBarImageProgress.second.rawValue) {
+        } else if value > 1 && value < 100 / 3 {
             appDelegate.statusItem.button?.image = NSImage(named: "StatusBar2Image")
-        } else if value > Float(StatusBarImageProgress.second.rawValue) && value < Float(StatusBarImageProgress.third.rawValue) {
+        } else if value > 100 / 3 && value < 100 / 3 * 2 {
             appDelegate.statusItem.button?.image = NSImage(named: "StatusBar3Image")
-        } else if value > Float(StatusBarImageProgress.second.rawValue) && value <= 100 {
+        } else if value > 100 / 3 * 2 && value <= 100 {
             appDelegate.statusItem.button?.image = NSImage(named: "StatusBar4Image")
         }
     }

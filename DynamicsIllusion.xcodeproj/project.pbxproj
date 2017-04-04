@@ -58,10 +58,6 @@
 			children = (
 				47E6830C1E9273C600C525F7 /* Extensions */,
 				47E683041E91BC6200C525F7 /* Framework */,
-				4743EFBC1E914B270032F5AA /* Controllers */,
-				4743EFBB1E914B210032F5AA /* Storyboards */,
-				4743EFBA1E914B1B0032F5AA /* Views */,
-				4743EFB91E914B0E0032F5AA /* Models */,
 				4743EFAA1E91493B0032F5AA /* AppDelegate.swift */,
 				4743EFAC1E91493B0032F5AA /* VolumeViewController.swift */,
 				4743EFAE1E91493B0032F5AA /* Assets.xcassets */,
@@ -69,34 +65,6 @@
 				4743EFB31E91493B0032F5AA /* Info.plist */,
 			);
 			path = DynamicsIllusion;
-			sourceTree = "<group>";
-		};
-		4743EFB91E914B0E0032F5AA /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Models;
-			sourceTree = "<group>";
-		};
-		4743EFBA1E914B1B0032F5AA /* Views */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Views;
-			sourceTree = "<group>";
-		};
-		4743EFBB1E914B210032F5AA /* Storyboards */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Storyboards;
-			sourceTree = "<group>";
-		};
-		4743EFBC1E914B270032F5AA /* Controllers */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Controllers;
 			sourceTree = "<group>";
 		};
 		47E683041E91BC6200C525F7 /* Framework */ = {
