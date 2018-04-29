@@ -13,7 +13,7 @@ import ScriptingBridge
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     
-    let statusItem = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
+    let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
     let devices = Audio.getOutputDevices()
     let selectedDevices = [AudioDeviceID]()
     var volumeViewController: VolumeViewController?
@@ -28,13 +28,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func loadViewFromStoryboard(named: String, identifier: String) -> Any {
-        let storyboard = NSStoryboard(name: named, bundle: nil)
-        return storyboard.instantiateController(withIdentifier: identifier)
+        let storyboard = NSStoryboard(name: NSStoryboard.Name(rawValue: named), bundle: nil)
+        return storyboard.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: identifier))
     }
     
     func createMenu() {
         if let button = statusItem.button {
-            button.image = NSImage(named: "StatusBar1Image")
+            button.image = NSImage(named: NSImage.Name(rawValue: "StatusBar1Image"))
             button.action = #selector(self.statusBarAction)
         }
         
@@ -58,7 +58,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             let item = NSMenuItem(title: device.value.truncate(length: 25, trailing: "..."), action: #selector(self.menuItemAction), keyEquivalent: "")
             item.tag = Int(device.key)
             if device.key == defaultDevice {
-                item.state = NSOnState
+                item.state = NSControl.StateValue.on
                 if Audio.isAggregateDevice(deviceID: defaultDevice) {
                     volumeViewController?.selectedDevices = Audio.getAggregateDeviceSubDeviceList(deviceID: defaultDevice)
                     for device in (volumeViewController?.selectedDevices!)! {
@@ -87,16 +87,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem.menu = menu
     }
     
-    func menuQuitAction() {
-        NSApplication.shared().terminate(self)
+    @objc func menuQuitAction() {
+        NSApplication.shared.terminate(self)
         
     }
     
-    func menuItemAction(sender: NSMenuItem) {
+    @objc func menuItemAction(sender: NSMenuItem) {
         for item in (statusItem.menu?.items)! {
             if item == sender {
-                if item.state == NSOffState {
-                    item.state = NSOnState
+                if item.state == NSControl.StateValue.off {
+                    item.state = NSControl.StateValue.on
                 }
                 let deviceID = AudioDeviceID(item.tag)
                 if Audio.isAggregateDevice(deviceID: deviceID) {
@@ -106,12 +106,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 }
                 Audio.setOutputDevice(newDeviceID: deviceID)
             } else {
-                item.state = NSOffState
+                item.state = NSControl.StateValue.off
             }
         }
     }
     
-    func statusBarAction(sender: AnyObject) {
+    @objc func statusBarAction(sender: AnyObject) {
         print("you can update")
     }
     

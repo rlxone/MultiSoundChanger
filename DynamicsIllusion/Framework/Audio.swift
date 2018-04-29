@@ -2,7 +2,7 @@
 //  Audio.swift
 //  DynamicsIllusion
 //
-//  Created by sdd on 03.04.17.
+//  Created by rlxone on 03.04.17.
 //  Copyright © 2017 rlxone. All rights reserved.
 //
 

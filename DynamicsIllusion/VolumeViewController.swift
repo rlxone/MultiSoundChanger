@@ -24,15 +24,15 @@ class VolumeViewController: NSViewController, NSTableViewDataSource {
     }
     
     func changeStatusItemImage(value: Float) {
-        let appDelegate = NSApplication.shared().delegate as! AppDelegate
+        let appDelegate = NSApplication.shared.delegate as! AppDelegate
         if value < 1 {
-            appDelegate.statusItem.button?.image = NSImage(named: "StatusBar1Image")
+            appDelegate.statusItem.button?.image = NSImage(named: NSImage.Name(rawValue: "StatusBar1Image"))
         } else if value > 1 && value < 100 / 3 {
-            appDelegate.statusItem.button?.image = NSImage(named: "StatusBar2Image")
+            appDelegate.statusItem.button?.image = NSImage(named: NSImage.Name(rawValue: "StatusBar2Image"))
         } else if value > 100 / 3 && value < 100 / 3 * 2 {
-            appDelegate.statusItem.button?.image = NSImage(named: "StatusBar3Image")
+            appDelegate.statusItem.button?.image = NSImage(named: NSImage.Name(rawValue: "StatusBar3Image"))
         } else if value > 100 / 3 * 2 && value <= 100 {
-            appDelegate.statusItem.button?.image = NSImage(named: "StatusBar4Image")
+            appDelegate.statusItem.button?.image = NSImage(named: NSImage.Name(rawValue: "StatusBar4Image"))
         }
     }
     
