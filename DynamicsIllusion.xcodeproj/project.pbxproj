@@ -24,6 +24,7 @@
 		4743EFB31E91493B0032F5AA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		47E683061E91BCA300C525F7 /* Audio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Audio.swift; path = Framework/Audio.swift; sourceTree = "<group>"; };
 		47E6830D1E9273EC00C525F7 /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StringExtensions.swift; path = Extensions/StringExtensions.swift; sourceTree = "<group>"; };
+		F31EAB2C20968B2400F7402F /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TODO.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +64,7 @@
 				4743EFAE1E91493B0032F5AA /* Assets.xcassets */,
 				4743EFB01E91493B0032F5AA /* Main.storyboard */,
 				4743EFB31E91493B0032F5AA /* Info.plist */,
+				F31EAB2C20968B2400F7402F /* TODO.md */,
 			);
 			path = DynamicsIllusion;
 			sourceTree = "<group>";
