@@ -13,6 +13,8 @@
 		4743EFB21E91493B0032F5AA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4743EFB01E91493B0032F5AA /* Main.storyboard */; };
 		47E683071E91BCA300C525F7 /* Audio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E683061E91BCA300C525F7 /* Audio.swift */; };
 		47E6830E1E9273EC00C525F7 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E6830D1E9273EC00C525F7 /* StringExtensions.swift */; };
+		4A3E4A0275810FCB40991BAE /* Pods_DynamicsIllusion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7BA60D8ECC00E8ABD54AEE0 /* Pods_DynamicsIllusion.framework */; };
+		6985C6FE251951F8003C2FDB /* OSD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6985C6FD251951F8003C2FDB /* OSD.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,11 @@
 		4743EFB31E91493B0032F5AA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		47E683061E91BCA300C525F7 /* Audio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Audio.swift; path = Framework/Audio.swift; sourceTree = "<group>"; };
 		47E6830D1E9273EC00C525F7 /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StringExtensions.swift; path = Extensions/StringExtensions.swift; sourceTree = "<group>"; };
+		6985C6FD251951F8003C2FDB /* OSD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OSD.framework; sourceTree = "<group>"; };
+		6985C7072519545C003C2FDB /* DynamicsIllusion-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DynamicsIllusion-Bridging-Header.h"; sourceTree = "<group>"; };
+		7FCC5AFFBD74FA3C7E36A0F8 /* Pods-DynamicsIllusion.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DynamicsIllusion.release.xcconfig"; path = "Target Support Files/Pods-DynamicsIllusion/Pods-DynamicsIllusion.release.xcconfig"; sourceTree = "<group>"; };
+		A7BA60D8ECC00E8ABD54AEE0 /* Pods_DynamicsIllusion.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DynamicsIllusion.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AE52318748840DBE4DCBAC47 /* Pods-DynamicsIllusion.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DynamicsIllusion.debug.xcconfig"; path = "Target Support Files/Pods-DynamicsIllusion/Pods-DynamicsIllusion.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +38,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A3E4A0275810FCB40991BAE /* Pods_DynamicsIllusion.framework in Frameworks */,
+				6985C6FE251951F8003C2FDB /* OSD.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +51,8 @@
 			children = (
 				4743EFA91E91493B0032F5AA /* DynamicsIllusion */,
 				4743EFA81E91493B0032F5AA /* Products */,
+				5E653FF732220067826E9384 /* Pods */,
+				83889335DD9089B748A33010 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -63,6 +74,7 @@
 				4743EFAE1E91493B0032F5AA /* Assets.xcassets */,
 				4743EFB01E91493B0032F5AA /* Main.storyboard */,
 				4743EFB31E91493B0032F5AA /* Info.plist */,
+				6985C7072519545C003C2FDB /* DynamicsIllusion-Bridging-Header.h */,
 			);
 			path = DynamicsIllusion;
 			sourceTree = "<group>";
@@ -83,6 +95,24 @@
 			name = Extensions;
 			sourceTree = "<group>";
 		};
+		5E653FF732220067826E9384 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				AE52318748840DBE4DCBAC47 /* Pods-DynamicsIllusion.debug.xcconfig */,
+				7FCC5AFFBD74FA3C7E36A0F8 /* Pods-DynamicsIllusion.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		83889335DD9089B748A33010 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6985C6FD251951F8003C2FDB /* OSD.framework */,
+				A7BA60D8ECC00E8ABD54AEE0 /* Pods_DynamicsIllusion.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -90,9 +120,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4743EFB61E91493B0032F5AA /* Build configuration list for PBXNativeTarget "DynamicsIllusion" */;
 			buildPhases = (
+				11DA7F4B3D2C9321E3505857 /* [CP] Check Pods Manifest.lock */,
 				4743EFA31E91493B0032F5AA /* Sources */,
 				4743EFA41E91493B0032F5AA /* Frameworks */,
 				4743EFA51E91493B0032F5AA /* Resources */,
+				8ABB500BA33A8DA7ECBE36B7 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -110,7 +142,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0830;
-				LastUpgradeCheck = 0830;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = mityny;
 				TargetAttributes = {
 					4743EFA61E91493B0032F5AA = {
@@ -122,7 +154,7 @@
 			};
 			buildConfigurationList = 4743EFA21E91493B0032F5AA /* Build configuration list for PBXProject "DynamicsIllusion" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
@@ -149,6 +181,49 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		11DA7F4B3D2C9321E3505857 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-DynamicsIllusion-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8ABB500BA33A8DA7ECBE36B7 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DynamicsIllusion/Pods-DynamicsIllusion-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/MediaKeyTap/MediaKeyTap.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MediaKeyTap.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DynamicsIllusion/Pods-DynamicsIllusion-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		4743EFA31E91493B0032F5AA /* Sources */ = {
@@ -180,21 +255,31 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -223,6 +308,7 @@
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -230,21 +316,31 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -265,36 +361,49 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
 		4743EFB71E91493B0032F5AA /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AE52318748840DBE4DCBAC47 /* Pods-DynamicsIllusion.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = C6Z5KNNJ86;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = DynamicsIllusion/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rlxone.DynamicsIllusion;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "";
-				SWIFT_VERSION = 3.0;
+				SWIFT_OBJC_BRIDGING_HEADER = "DynamicsIllusion/DynamicsIllusion-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
 		4743EFB81E91493B0032F5AA /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7FCC5AFFBD74FA3C7E36A0F8 /* Pods-DynamicsIllusion.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = C6Z5KNNJ86;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = DynamicsIllusion/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rlxone.DynamicsIllusion;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "";
-				SWIFT_VERSION = 3.0;
+				SWIFT_OBJC_BRIDGING_HEADER = "DynamicsIllusion/DynamicsIllusion-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};

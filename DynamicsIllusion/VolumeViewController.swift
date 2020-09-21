@@ -8,6 +8,7 @@
 
 import Cocoa
 import AudioToolbox
+import MediaKeyTap
 
 class VolumeViewController: NSViewController, NSTableViewDataSource {
     
@@ -15,7 +16,7 @@ class VolumeViewController: NSViewController, NSTableViewDataSource {
     
     var selectedDevices: [AudioDeviceID]?
     
-    func changeVolume(value: Float) {
+    func deviceChangeVolume(value: Float) {
         if selectedDevices != nil {
             for device in selectedDevices! {
                 Audio.setDeviceVolume(deviceID: device, leftChannelLevel: value, rightChannelLevel: value)
@@ -24,7 +25,7 @@ class VolumeViewController: NSViewController, NSTableViewDataSource {
     }
     
     func changeStatusItemImage(value: Float) {
-        let appDelegate = NSApplication.shared().delegate as! AppDelegate
+        let appDelegate = NSApplication.shared.delegate as! AppDelegate
         if value < 1 {
             appDelegate.statusItem.button?.image = NSImage(named: "StatusBar1Image")
         } else if value > 1 && value < 100 / 3 {
@@ -36,8 +37,21 @@ class VolumeViewController: NSViewController, NSTableViewDataSource {
         }
     }
     
+    func updateVolume(volume: Float) {
+        volumeSlider.floatValue = max(min(100, volume), 0)
+        print(volumeSlider.floatValue)
+        print(volume)
+        deviceChangeVolume(value: volumeSlider.floatValue / 100)
+        changeStatusItemImage(value: volumeSlider.floatValue)
+    }
+    
+    func getVolume() -> Float {
+        print(volumeSlider.floatValue)
+        return volumeSlider.floatValue
+    }
+    
     @IBAction func volumeSliderAction(_ sender: Any) {
-        changeVolume(value: volumeSlider.floatValue / 100)
+        deviceChangeVolume(value: volumeSlider.floatValue / 100)
         changeStatusItemImage(value: volumeSlider.floatValue)
     }
     
@@ -48,4 +62,3 @@ class VolumeViewController: NSViewController, NSTableViewDataSource {
     }
 
 }
-
