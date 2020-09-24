@@ -11,16 +11,24 @@ import AudioToolbox
 import MediaKeyTap
 
 class VolumeViewController: NSViewController, NSTableViewDataSource {
-    
     @IBOutlet var volumeSlider: NSSlider!
     
     var selectedDevices: [AudioDeviceID]?
+    var muted: Bool = false
     
     func deviceChangeVolume(value: Float) {
         if selectedDevices != nil {
             for device in selectedDevices! {
                 Audio.setDeviceVolume(deviceID: device, leftChannelLevel: value, rightChannelLevel: value)
             }
+        }
+    }
+    
+    func toggleMute() {
+        muted = !muted
+        for device in selectedDevices! {
+            let volume: Float = (muted) ? 0.0 : volumeSlider.floatValue / 100
+            Audio.setDeviceVolume(deviceID: device, leftChannelLevel: volume, rightChannelLevel: volume)
         }
     }
     
@@ -37,16 +45,14 @@ class VolumeViewController: NSViewController, NSTableViewDataSource {
         }
     }
     
-    func updateVolume(volume: Float) {
+    func updateVolume(volume: Float) -> Float {
         volumeSlider.floatValue = max(min(100, volume), 0)
-        print(volumeSlider.floatValue)
-        print(volume)
         deviceChangeVolume(value: volumeSlider.floatValue / 100)
         changeStatusItemImage(value: volumeSlider.floatValue)
+        return volumeSlider.floatValue
     }
     
     func getVolume() -> Float {
-        print(volumeSlider.floatValue)
         return volumeSlider.floatValue
     }
     

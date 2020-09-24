@@ -170,26 +170,34 @@ extension AppDelegate: MediaKeyTapDelegate {
 
     //Handle the media key taps
     func handle(mediaKey: MediaKey, event: KeyEvent?, modifiers: NSEvent.ModifierFlags?) {
-        print("Media Key Press")
-        print(mediaKey)
-        switch mediaKey {
-            case .volumeUp:
-                volumeViewController?.updateVolume(volume: (volumeViewController?.getVolume() ?? 0) + 100/16)
-                showOSD()
-            case  .volumeDown:
-                volumeViewController?.updateVolume(volume: (volumeViewController?.getVolume() ?? 0) - 100/16)
-                showOSD()
-            case .mute:
-                volumeViewController?.updateVolume(volume: 0)
-                showOSD()
-            default: break
+        if let volumeCtrl = volumeViewController {
+            let step: Float = 100.0 / 16.0
+            var volume: Float = volumeCtrl.getVolume()
+            switch mediaKey {
+                case .volumeUp:
+                    volume = volumeCtrl.updateVolume(volume: volume + step)
+                case .volumeDown:
+                    volume = volumeCtrl.updateVolume(volume: volume - step)
+                case .mute:
+                    volumeCtrl.toggleMute()
+                    volume = (volumeCtrl.muted) ? 0.0 : volume
+                default: break
+            }
+            showOSD(volume: volume)
         }
     }
     
-    func showOSD() {
+    func showOSD(volume: Float) {
         guard let manager = OSDManager.sharedManager() as? OSDManager else {
           return
         }
-        manager.showImage(Int64(3), onDisplayID: CGMainDisplayID(), priority: 0x1F4, msecUntilFade: 1000, filledChiclets: UInt32((16 * (volumeViewController?.getVolume() ?? 0))/100), totalChiclets: UInt32(16), locked: false)
+        let mouseloc: NSPoint = NSEvent.mouseLocation
+        var displayForPoint: CGDirectDisplayID = 0, count: UInt32 = 0
+        if (CGGetDisplaysWithPoint(mouseloc, 1, &displayForPoint, &count) != CGError.success) {
+            print("Error getting display under cursor.")
+            displayForPoint = CGMainDisplayID()
+        }
+        let image = (volume == 0.0) ? OSDGraphicSpeakerMuted.rawValue : OSDGraphicSpeaker.rawValue
+        manager.showImage(Int64(image), onDisplayID: displayForPoint, priority: 0x1F4, msecUntilFade: 1000, filledChiclets: UInt32((16 * (volume))/100), totalChiclets: UInt32(16), locked: false)
     }
 }
