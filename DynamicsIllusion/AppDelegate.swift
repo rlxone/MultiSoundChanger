@@ -19,6 +19,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     let selectedDevices = [AudioDeviceID]()
     var volumeViewController: VolumeViewController?
     var mediaKeyTap: MediaKeyTap?
+    
+    let volumeStep: Float = 100.0 / 16.0
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         setupApp()
@@ -171,13 +173,13 @@ extension AppDelegate: MediaKeyTapDelegate {
     //Handle the media key taps
     func handle(mediaKey: MediaKey, event: KeyEvent?, modifiers: NSEvent.ModifierFlags?) {
         if let volumeCtrl = volumeViewController {
-            let step: Float = 100.0 / 16.0
-            var volume: Float = volumeCtrl.getVolume()
+            // Round to nearest multiple of volumeStep.
+            var volume: Float = (volumeCtrl.getVolume() / volumeStep).rounded() * volumeStep
             switch mediaKey {
                 case .volumeUp:
-                    volume = volumeCtrl.updateVolume(volume: volume + step)
+                    volume = volumeCtrl.updateVolume(volume: volume + volumeStep)
                 case .volumeDown:
-                    volume = volumeCtrl.updateVolume(volume: volume - step)
+                    volume = volumeCtrl.updateVolume(volume: volume - volumeStep)
                 case .mute:
                     volumeCtrl.toggleMute()
                     volume = (volumeCtrl.muted) ? 0.0 : volume
@@ -198,6 +200,6 @@ extension AppDelegate: MediaKeyTapDelegate {
             displayForPoint = CGMainDisplayID()
         }
         let image = (volume == 0.0) ? OSDGraphicSpeakerMuted.rawValue : OSDGraphicSpeaker.rawValue
-        manager.showImage(Int64(image), onDisplayID: displayForPoint, priority: 0x1F4, msecUntilFade: 1000, filledChiclets: UInt32((16 * (volume))/100), totalChiclets: UInt32(16), locked: false)
+        manager.showImage(Int64(image), onDisplayID: displayForPoint, priority: 0x1F4, msecUntilFade: 1000, filledChiclets: UInt32(volume / volumeStep), totalChiclets: UInt32(100.0 / volumeStep), locked: false)
     }
 }
