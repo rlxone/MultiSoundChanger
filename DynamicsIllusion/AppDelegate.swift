@@ -47,7 +47,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         
         let menu = NSMenu()
-        
+
+        // Volume Slider.
         var item = NSMenuItem(title: "Volume:", action: #selector(self.menuItemAction), keyEquivalent: "")
         item.isEnabled = false
         menu.addItem(item)
@@ -56,6 +57,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         item.view = volumeViewController?.view
         menu.addItem(item)
         
+        // Balance Slider.
+        item = NSMenuItem(title: "Balance:", action: #selector(self.menuItemAction), keyEquivalent: "")
+        item.isEnabled = false
+        menu.addItem(item)
+        
+        item = NSMenuItem(title: "", action: #selector(self.menuItemAction), keyEquivalent: "")
+        item.view = volumeViewController?.balanceView
+        menu.addItem(item)
+        
+        // Devices Section.
         item = NSMenuItem(title: "Output Devices:", action: #selector(self.menuItemAction), keyEquivalent: "")
         item.isEnabled = false
         menu.addItem(item)

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12118"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17156"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -44,10 +44,30 @@
                         </constraints>
                     </customView>
                     <connections>
+                        <outlet property="balanceSlider" destination="9la-cV-Rhm" id="Z8q-i5-17K"/>
+                        <outlet property="balanceView" destination="nv6-kL-2JB" id="dMQ-TK-DrN"/>
                         <outlet property="volumeSlider" destination="ZP8-R9-Co6" id="iWo-3G-iz3"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <customView id="nv6-kL-2JB">
+                    <rect key="frame" x="0.0" y="0.0" width="253" height="23"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <subviews>
+                        <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9la-cV-Rhm" userLabel="Balance Slider">
+                            <rect key="frame" x="18" y="2" width="217" height="19"/>
+                            <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="Di5-TY-clP"/>
+                            <connections>
+                                <action selector="balanceSliderAction:" target="XfG-lQ-9wD" id="AIc-XV-rqE"/>
+                            </connections>
+                        </slider>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="9la-cV-Rhm" secondAttribute="trailing" constant="20" id="AHU-Vx-nbu"/>
+                        <constraint firstItem="9la-cV-Rhm" firstAttribute="leading" secondItem="nv6-kL-2JB" secondAttribute="leading" constant="20" id="LtR-ie-WIK"/>
+                        <constraint firstItem="9la-cV-Rhm" firstAttribute="centerY" secondItem="nv6-kL-2JB" secondAttribute="centerY" id="zj7-f5-eky"/>
+                    </constraints>
+                </customView>
             </objects>
             <point key="canvasLocation" x="76" y="91"/>
         </scene>
