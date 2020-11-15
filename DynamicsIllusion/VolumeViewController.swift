@@ -8,14 +8,15 @@
 
 import Cocoa
 import AudioToolbox
+import MediaKeyTap
 
 class VolumeViewController: NSViewController, NSTableViewDataSource {
-    
     @IBOutlet var volumeSlider: NSSlider!
     
     var selectedDevices: [AudioDeviceID]?
+    var muted: Bool = false
     
-    func changeVolume(value: Float) {
+    func deviceChangeVolume(value: Float) {
         if selectedDevices != nil {
             for device in selectedDevices! {
                 Audio.setDeviceVolume(deviceID: device, leftChannelLevel: value, rightChannelLevel: value)
@@ -23,8 +24,16 @@ class VolumeViewController: NSViewController, NSTableViewDataSource {
         }
     }
     
+    func toggleMute() {
+        muted = !muted
+        for device in selectedDevices! {
+            let volume: Float = (muted) ? 0.0 : volumeSlider.floatValue / 100
+            Audio.setDeviceVolume(deviceID: device, leftChannelLevel: volume, rightChannelLevel: volume)
+        }
+    }
+    
     func changeStatusItemImage(value: Float) {
-        let appDelegate = NSApplication.shared().delegate as! AppDelegate
+        let appDelegate = NSApplication.shared.delegate as! AppDelegate
         if value < 1 {
             appDelegate.statusItem.button?.image = NSImage(named: "StatusBar1Image")
         } else if value > 1 && value < 100 / 3 {
@@ -36,8 +45,19 @@ class VolumeViewController: NSViewController, NSTableViewDataSource {
         }
     }
     
+    func updateVolume(volume: Float) -> Float {
+        volumeSlider.floatValue = max(min(100, volume), 0)
+        deviceChangeVolume(value: volumeSlider.floatValue / 100)
+        changeStatusItemImage(value: volumeSlider.floatValue)
+        return volumeSlider.floatValue
+    }
+    
+    func getVolume() -> Float {
+        return volumeSlider.floatValue
+    }
+    
     @IBAction func volumeSliderAction(_ sender: Any) {
-        changeVolume(value: volumeSlider.floatValue / 100)
+        deviceChangeVolume(value: volumeSlider.floatValue / 100)
         changeStatusItemImage(value: volumeSlider.floatValue)
     }
     
@@ -48,4 +68,3 @@ class VolumeViewController: NSViewController, NSTableViewDataSource {
     }
 
 }
-

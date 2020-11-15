@@ -9,15 +9,19 @@
 import Cocoa
 import AudioToolbox
 import ScriptingBridge
+import MediaKeyTap
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     
-    let statusItem = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
+    let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
     let devices = Audio.getOutputDevices()
     let selectedDevices = [AudioDeviceID]()
     var volumeViewController: VolumeViewController?
+    var mediaKeyTap: MediaKeyTap?
     
+    let volumeStep: Float = 100.0 / 16.0
+
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         setupApp()
     }
@@ -25,6 +29,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func setupApp() {
         volumeViewController = loadViewFromStoryboard(named: "Main", identifier: "VolumeViewControllerId") as? VolumeViewController
         createMenu()
+        
+        //Media keys listener
+       self.startMediaKeyOnAccessibiltiyApiChange()
+       self.startMediaKeyTap()
     }
     
     func loadViewFromStoryboard(named: String, identifier: String) -> Any {
@@ -58,7 +66,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             let item = NSMenuItem(title: device.value.truncate(length: 25, trailing: "..."), action: #selector(self.menuItemAction), keyEquivalent: "")
             item.tag = Int(device.key)
             if device.key == defaultDevice {
-                item.state = NSOnState
+                item.state = NSControl.StateValue.on
                 if Audio.isAggregateDevice(deviceID: defaultDevice) {
                     volumeViewController?.selectedDevices = Audio.getAggregateDeviceSubDeviceList(deviceID: defaultDevice)
                     for device in (volumeViewController?.selectedDevices!)! {
@@ -87,16 +95,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem.menu = menu
     }
     
-    func menuQuitAction() {
-        NSApplication.shared().terminate(self)
+    @objc func menuQuitAction() {
+        NSApplication.shared.terminate(self)
         
     }
     
-    func menuItemAction(sender: NSMenuItem) {
+    @objc func menuItemAction(sender: NSMenuItem) {
         for item in (statusItem.menu?.items)! {
             if item == sender {
-                if item.state == NSOffState {
-                    item.state = NSOnState
+                if item.state == NSControl.StateValue.off {
+                    item.state = NSControl.StateValue.on
                 }
                 let deviceID = AudioDeviceID(item.tag)
                 if Audio.isAggregateDevice(deviceID: deviceID) {
@@ -106,21 +114,92 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 }
                 Audio.setOutputDevice(newDeviceID: deviceID)
             } else {
-                item.state = NSOffState
+                item.state = NSControl.StateValue.off
             }
         }
     }
     
-    func statusBarAction(sender: AnyObject) {
+    @objc func statusBarAction(sender: AnyObject) {
         print("you can update")
     }
     
-    override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+    func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         return menuItem.isEnabled
     }
     
     func applicationWillTerminate(_ aNotification: Notification) {
         
     }
+    
+    //If accessibility api changes, try to start media key listener
+    private func startMediaKeyOnAccessibiltiyApiChange() {
+        DistributedNotificationCenter.default().addObserver(forName: NSNotification.Name(rawValue: "com.apple.accessibility.api"), object: nil, queue: nil) { _ in
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + DispatchTimeInterval.milliseconds(100)) {
+                self.startMediaKeyTap()
+            }
+        }
+    }
 }
 
+//Extend AppDelegate with Media Key Tap functions
+extension AppDelegate: MediaKeyTapDelegate {
+    func acquirePrivileges() {
+        let trusted = kAXTrustedCheckOptionPrompt.takeUnretainedValue()
+        let privOptions = [trusted: true] as CFDictionary
+        let accessEnabled = AXIsProcessTrustedWithOptions(privOptions)
+
+        if accessEnabled == true {
+            print("OK, access enabled.")
+        } else {
+            print("Failed, access denied.")
+        }
+    }
+    
+    //Try to start the media key tap listeners for brightness down and up
+    private func startMediaKeyTap() {
+        acquirePrivileges()
+
+        var keys: [MediaKey]
+        keys = [.volumeUp, .volumeDown, .mute]
+        
+        self.mediaKeyTap?.stop()
+        self.mediaKeyTap = MediaKeyTap(delegate: self, for: keys, observeBuiltIn: true)
+        self.mediaKeyTap?.start()
+        
+        let environment = ProcessInfo.processInfo.environment
+        print(environment["APP_SANDBOX_CONTAINER_ID"] == nil ? "Not sanboxed" : "Sandboxed")
+    }
+
+    //Handle the media key taps
+    func handle(mediaKey: MediaKey, event: KeyEvent?, modifiers: NSEvent.ModifierFlags?) {
+        if let volumeCtrl = volumeViewController {
+            // Round to nearest multiple of volumeStep.
+            var volume: Float = (volumeCtrl.getVolume() / volumeStep).rounded() * volumeStep
+            switch mediaKey {
+                case .volumeUp:
+                    volume = volumeCtrl.updateVolume(volume: volume + volumeStep)
+                case .volumeDown:
+                    volume = volumeCtrl.updateVolume(volume: volume - volumeStep)
+                case .mute:
+                    volumeCtrl.toggleMute()
+                    volume = (volumeCtrl.muted) ? 0.0 : volume
+                default: break
+            }
+            showOSD(volume: volume)
+        }
+    }
+    
+    func showOSD(volume: Float) {
+        guard let manager = OSDManager.sharedManager() as? OSDManager else {
+          return
+        }
+        let mouseloc: NSPoint = NSEvent.mouseLocation
+        var displayForPoint: CGDirectDisplayID = 0, count: UInt32 = 0
+        if (CGGetDisplaysWithPoint(mouseloc, 1, &displayForPoint, &count) != CGError.success) {
+            print("Error getting display under cursor.")
+            displayForPoint = CGMainDisplayID()
+        }
+        let image = (volume == 0.0) ? OSDGraphicSpeakerMuted.rawValue : OSDGraphicSpeaker.rawValue
+        manager.showImage(Int64(image), onDisplayID: displayForPoint, priority: 0x1F4, msecUntilFade: 1000, filledChiclets: UInt32(volume / volumeStep), totalChiclets: UInt32(100.0 / volumeStep), locked: false)
+    }
+}
