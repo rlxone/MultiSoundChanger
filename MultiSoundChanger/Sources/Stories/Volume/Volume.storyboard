@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--MultiSoundChanger-->
+        <scene sceneID="Sd2-Ok-bVn">
+            <objects>
+                <viewController title="MultiSoundChanger" storyboardIdentifier="VolumeViewController" id="EzY-mR-Bqy" customClass="VolumeViewController" customModule="MultiSoundChanger" sceneMemberID="viewController">
+                    <customView key="view" id="Ot1-Uv-DQ0">
+                        <rect key="frame" x="0.0" y="0.0" width="253" height="28"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <subviews>
+                            <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Imv-Ah-oMz">
+                                <rect key="frame" x="18" y="-2" width="217" height="28"/>
+                                <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="Prx-bs-PU2"/>
+                                <connections>
+                                    <action selector="volumeSliderAction:" target="EzY-mR-Bqy" id="Ata-d7-ikN"/>
+                                </connections>
+                            </slider>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="Imv-Ah-oMz" secondAttribute="bottom" constant="4" id="0Ws-Fb-wEv"/>
+                            <constraint firstItem="Imv-Ah-oMz" firstAttribute="top" secondItem="Ot1-Uv-DQ0" secondAttribute="top" constant="4" id="6YS-3j-emH"/>
+                            <constraint firstItem="Imv-Ah-oMz" firstAttribute="leading" secondItem="Ot1-Uv-DQ0" secondAttribute="leading" constant="20" id="CLf-zm-zAD"/>
+                            <constraint firstAttribute="trailing" secondItem="Imv-Ah-oMz" secondAttribute="trailing" constant="20" id="hpE-zY-iJ2"/>
+                        </constraints>
+                    </customView>
+                    <connections>
+                        <outlet property="volumeSlider" destination="Imv-Ah-oMz" id="jvJ-bq-KlG"/>
+                    </connections>
+                </viewController>
+                <customObject id="0bv-Tu-Tud" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="76" y="91"/>
+        </scene>
+    </scenes>
+</document>
