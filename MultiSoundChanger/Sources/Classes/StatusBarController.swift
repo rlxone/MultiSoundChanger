@@ -74,16 +74,16 @@ final class StatusBarControllerImpl: StatusBarController {
             let item = NSMenuItem(
                 title: Strings.volume,
                 action: nil,
-                keyEquivalent: ""
+                keyEquivalent: String()
             )
             item.isEnabled = false
             return item
             
         case .slider:
             let item = NSMenuItem(
-                title: "",
+                title: String(),
                 action: nil,
-                keyEquivalent: ""
+                keyEquivalent: String()
             )
             item.view = volumeController.view
             return item
@@ -92,7 +92,7 @@ final class StatusBarControllerImpl: StatusBarController {
             let item = NSMenuItem(
                 title: Strings.output,
                 action: nil,
-                keyEquivalent: ""
+                keyEquivalent: String()
             )
             item.isEnabled = false
             return item
@@ -122,7 +122,7 @@ final class StatusBarControllerImpl: StatusBarController {
             let item = NSMenuItem(
                 title: device.value.truncate(length: 25),
                 action: #selector(menuItemAction),
-                keyEquivalent: ""
+                keyEquivalent: String()
             )
             item.target = self
             item.tag = Int(device.key)
@@ -136,7 +136,7 @@ final class StatusBarControllerImpl: StatusBarController {
                     continue
                 }
                 
-                let correctedVolume = volume * 100
+                let correctedVolume = audioManager.isMuted ? 0 : volume * 100
                 volumeController.updateSliderVolume(volume: correctedVolume)
                 changeStatusItemImage(value: correctedVolume)
             }
