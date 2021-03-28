@@ -37,11 +37,11 @@ extension AppDelegate: MediaManagerDelegate {
         switch mediaKey {
         case .volumeUp:
             volume = (volume + volumeStep).clamped(to: 0...1)
-            audioManager.setSelectedDeviceVolume(leftChannelLevel: volume, rightChannelLevel: volume)
+            audioManager.setSelectedDeviceVolume(masterChannelLevel: volume, leftChannelLevel: volume, rightChannelLevel: volume)
             
         case .volumeDown:
             volume = (volume - volumeStep).clamped(to: 0...1)
-            audioManager.setSelectedDeviceVolume(leftChannelLevel: volume, rightChannelLevel: volume)
+            audioManager.setSelectedDeviceVolume(masterChannelLevel: volume, leftChannelLevel: volume, rightChannelLevel: volume)
             
         case .mute:
             audioManager.toggleMute()

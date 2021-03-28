@@ -10,12 +10,14 @@ import AudioToolbox
 import Cocoa
 import Foundation
 
+// MARK: - Protocols
+
 protocol Audio {
     func getOutputDevices() -> [AudioDeviceID: String]?
     func isOutputDevice(deviceID: AudioDeviceID) -> Bool
     func getAggregateDeviceSubDeviceList(deviceID: AudioDeviceID) -> [AudioDeviceID]
     func isAggregateDevice(deviceID: AudioDeviceID) -> Bool
-    func setDeviceVolume(deviceID: AudioDeviceID, leftChannelLevel: Float, rightChannelLevel: Float)
+    func setDeviceVolume(deviceID: AudioDeviceID, masterChannelLevel: Float, leftChannelLevel: Float, rightChannelLevel: Float)
     func setDeviceMute(deviceID: AudioDeviceID, isMute: Bool)
     func setOutputDevice(newDeviceID: AudioDeviceID)
     func isDeviceMuted(deviceID: AudioDeviceID) -> Bool
@@ -24,16 +26,15 @@ protocol Audio {
     func getDeviceTransportType(deviceID: AudioDeviceID) -> AudioDevicePropertyID
 }
 
+// MARK: - Implementation
+
 struct AudioImpl: Audio {
     func getOutputDevices() -> [AudioDeviceID: String]? {
         var result: [AudioDeviceID: String] = [:]
         let devices = getAllDevices()
         
-        for device in devices {
-            if isOutputDevice(deviceID: device) {
-                print(getDeviceType(deviceID: device))
-                result[device] = getDeviceName(deviceID: device)
-            }
+        for device in devices where isOutputDevice(deviceID: device) {
+            result[device] = getDeviceName(deviceID: device)
         }
         
         return result
@@ -91,12 +92,13 @@ struct AudioImpl: Audio {
         return mutedValue == 1
     }
     
-    func setDeviceVolume(deviceID: AudioDeviceID, leftChannelLevel: Float, rightChannelLevel: Float) {
+    func setDeviceVolume(deviceID: AudioDeviceID, masterChannelLevel: Float, leftChannelLevel: Float, rightChannelLevel: Float) {
         let channelsCount = 2
         var channels = [UInt32](repeating: 0, count: channelsCount)
         var propertySize = UInt32(MemoryLayout<UInt32>.size * channelsCount)
         var leftLevel = leftChannelLevel
         var rigthLevel = rightChannelLevel
+        var masterLevel = masterChannelLevel
         
         var propertyAddress = AudioObjectPropertyAddress(
             mSelector: AudioObjectPropertySelector(kAudioDevicePropertyPreferredChannelsForStereo),
@@ -111,6 +113,9 @@ struct AudioImpl: Audio {
         
         propertyAddress.mSelector = kAudioDevicePropertyVolumeScalar
         propertySize = UInt32(MemoryLayout<Float32>.size)
+        
+        propertyAddress.mElement = AudioObjectPropertyElement(0)
+        AudioObjectSetPropertyData(deviceID, &propertyAddress, 0, nil, propertySize, &masterLevel)
         
         propertyAddress.mElement = channels[0]
         AudioObjectSetPropertyData(deviceID, &propertyAddress, 0, nil, propertySize, &leftLevel)
@@ -149,6 +154,7 @@ struct AudioImpl: Audio {
         var propertySize = UInt32(MemoryLayout<UInt32>.size * channelsCount)
         var leftLevel = Float32(-1)
         var rigthLevel = Float32(-1)
+        var masterLevel = Float32(-1)
         
         var propertyAddress = AudioObjectPropertyAddress(
             mSelector: AudioObjectPropertySelector(kAudioDevicePropertyPreferredChannelsForStereo),
@@ -163,15 +169,17 @@ struct AudioImpl: Audio {
         
         propertyAddress.mSelector = kAudioDevicePropertyVolumeScalar
         propertySize = UInt32(MemoryLayout<Float32>.size)
-        propertyAddress.mElement = channels[0]
+
+        propertyAddress.mElement = AudioObjectPropertyElement(0)
+        AudioObjectGetPropertyData(deviceID, &propertyAddress, 0, nil, &propertySize, &masterLevel)
         
+        propertyAddress.mElement = channels[0]
         AudioObjectGetPropertyData(deviceID, &propertyAddress, 0, nil, &propertySize, &leftLevel)
         
         propertyAddress.mElement = channels[1]
-        
         AudioObjectGetPropertyData(deviceID, &propertyAddress, 0, nil, &propertySize, &rigthLevel)
         
-        return [leftLevel, rigthLevel]
+        return [masterLevel, leftLevel, rigthLevel]
     }
     
     func getDefaultOutputDevice() -> AudioDeviceID {

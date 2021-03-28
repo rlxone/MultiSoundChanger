@@ -96,9 +96,6 @@ final class MediaManagerImpl: MediaManager {
         mediaKeyTap?.stop()
         mediaKeyTap = MediaKeyTap(delegate: self, for: keys, observeBuiltIn: true)
         mediaKeyTap?.start()
-        
-        let environment = ProcessInfo.processInfo.environment
-        print(environment["APP_SANDBOX_CONTAINER_ID"] == nil ? "Not sanboxed" : "Sandboxed")
     }
     
     private func observeMediaKeyOnAccessibiltiyApiChange() {

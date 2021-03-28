@@ -16,7 +16,7 @@ protocol AudioManager {
     func getOutputDevices() -> [AudioDeviceID: String]?
     func selectDevice(deviceID: AudioDeviceID)
     func getSelectedDeviceVolume() -> Float?
-    func setSelectedDeviceVolume(leftChannelLevel: Float, rightChannelLevel: Float)
+    func setSelectedDeviceVolume(masterChannelLevel: Float, leftChannelLevel: Float, rightChannelLevel: Float)
     func isSelectedDeviceMuted() -> Bool
     func toggleMute()
     
@@ -71,7 +71,7 @@ final class AudioManagerImpl: AudioManager {
         return nil
     }
     
-    func setSelectedDeviceVolume(leftChannelLevel: Float, rightChannelLevel: Float) {
+    func setSelectedDeviceVolume(masterChannelLevel: Float, leftChannelLevel: Float, rightChannelLevel: Float) {
         guard let selectedDevice = selectedDevice else {
             return
         }
@@ -84,6 +84,7 @@ final class AudioManagerImpl: AudioManager {
             for device in aggregatedDevices {
                 audio.setDeviceVolume(
                     deviceID: device,
+                    masterChannelLevel: masterChannelLevel,
                     leftChannelLevel: leftChannelLevel,
                     rightChannelLevel: rightChannelLevel
                 )
@@ -92,6 +93,7 @@ final class AudioManagerImpl: AudioManager {
         } else {
             audio.setDeviceVolume(
                 deviceID: selectedDevice,
+                masterChannelLevel: masterChannelLevel,
                 leftChannelLevel: leftChannelLevel,
                 rightChannelLevel: rightChannelLevel
             )
@@ -137,7 +139,7 @@ final class AudioManagerImpl: AudioManager {
         if isSelectedDeviceMuted() {
             setSelectedDeviceMute(isMute: false)
             let volume = getSelectedDeviceVolume() ?? 0
-            setSelectedDeviceVolume(leftChannelLevel: volume, rightChannelLevel: volume)
+            setSelectedDeviceVolume(masterChannelLevel: volume, leftChannelLevel: volume, rightChannelLevel: volume)
         } else {
             setSelectedDeviceMute(isMute: true)
         }
