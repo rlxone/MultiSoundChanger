@@ -11,7 +11,7 @@ import Foundation
 
 // MARK: - Protocols
 
-protocol AudioManager {
+protocol AudioManager: class {
     func getDefaultOutputDevice() -> AudioDeviceID
     func getOutputDevices() -> [AudioDeviceID: String]?
     func selectDevice(deviceID: AudioDeviceID)
@@ -32,6 +32,7 @@ final class AudioManagerImpl: AudioManager {
     
     init() {
         devices = audio.getOutputDevices()
+        printDevices()
     }
     
     func getDefaultOutputDevice() -> AudioDeviceID {
@@ -49,6 +50,7 @@ final class AudioManagerImpl: AudioManager {
     func selectDevice(deviceID: AudioDeviceID) {
         selectedDevice = deviceID
         audio.setOutputDevice(newDeviceID: deviceID)
+        Logger.debug(Constants.InnerMessages.selectDevice(deviceID: String(deviceID)))
     }
     
     func getSelectedDeviceVolume() -> Float? {
@@ -147,5 +149,15 @@ final class AudioManagerImpl: AudioManager {
     
     var isMuted: Bool {
         return isSelectedDeviceMuted()
+    }
+    
+    private func printDevices() {
+        guard let devices = devices else {
+            return
+        }
+        Logger.debug(Constants.InnerMessages.outputDevices)
+        for device in devices {
+            Logger.debug(Constants.InnerMessages.debugDevice(deviceID: String(device.key), deviceName: device.value))
+        }
     }
 }

@@ -28,7 +28,7 @@ protocol Audio {
 
 // MARK: - Implementation
 
-struct AudioImpl: Audio {
+final class AudioImpl: Audio {
     func getOutputDevices() -> [AudioDeviceID: String]? {
         var result: [AudioDeviceID: String] = [:]
         let devices = getAllDevices()

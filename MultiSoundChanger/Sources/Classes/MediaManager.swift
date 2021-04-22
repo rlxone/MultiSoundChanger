@@ -52,7 +52,7 @@ final class MediaManagerImpl: MediaManager {
         var count: UInt32 = 0
         
         if CGGetDisplaysWithPoint(mouseloc, 1, &displayForPoint, &count) != .success {
-            print("Error getting display under cursor.")
+            Logger.warning(Constants.InnerMessages.getDisplayError)
             displayForPoint = CGMainDisplayID()
         }
         
@@ -78,9 +78,9 @@ final class MediaManagerImpl: MediaManager {
         let accessEnabled = AXIsProcessTrustedWithOptions(privOptions)
         
         if accessEnabled {
-            print("OK, access enabled.")
+            Logger.warning(Constants.InnerMessages.accessEnabled)
         } else {
-            print("Failed, access denied.")
+            Logger.warning(Constants.InnerMessages.accessDenied)
         }
     }
     
@@ -99,7 +99,7 @@ final class MediaManagerImpl: MediaManager {
     }
     
     private func observeMediaKeyOnAccessibiltiyApiChange() {
-        let notificaion = NSNotification.Name(rawValue: "com.apple.accessibility.api")
+        let notificaion = NSNotification.Name(rawValue: Constants.Notifications.accessibility)
         
         DistributedNotificationCenter.default().addObserver(
             self,
@@ -116,6 +116,8 @@ final class MediaManagerImpl: MediaManager {
         }
     }
 }
+
+// MARK: - MediaKeyTapDelegate
 
 extension MediaManagerImpl: MediaKeyTapDelegate {
     func handle(mediaKey: MediaKey, event: KeyEvent?, modifiers: NSEvent.ModifierFlags?) {

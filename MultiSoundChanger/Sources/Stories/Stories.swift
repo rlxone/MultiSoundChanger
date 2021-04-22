@@ -19,7 +19,8 @@ extension Stories {
         let identifier = String(describing: classType)
         
         guard let controller = storyboard.instantiateController(withIdentifier: identifier) as? T else {
-            fatalError("Wrong controller identifier")
+            Logger.error(Constants.InnerMessages.controllerIdentifierError)
+            fatalError(Constants.InnerMessages.controllerIdentifierError)
         }
         
         return controller

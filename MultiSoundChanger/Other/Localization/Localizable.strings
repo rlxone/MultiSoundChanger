@@ -9,3 +9,5 @@
 "volume" = "Volume:";
 "output" = "Output Device:";
 "quit" = "Quit";
+"sound.preferences" = "Sound Preferences...";
+"audio.devices" = "Audio Devices...";

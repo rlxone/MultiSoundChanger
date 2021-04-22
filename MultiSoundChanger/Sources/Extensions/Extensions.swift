@@ -1,9 +1,9 @@
 //
-//  NumbersExtensions.swift
+//  StringExtensions.swift
 //  MultiSoundChanger
 //
-//  Created by Dmitry Medyuho on 22.11.2020.
-//  Copyright © 2020 Dmitry Medyuho. All rights reserved.
+//  Created by Dmitry Medyuho on 03.04.17.
+//  Copyright © 2017 Dmitry Medyuho. All rights reserved.
 //
 
 import Foundation
