@@ -40,7 +40,7 @@ enum Logger {
     }
     
     static func debug(_ string: String) {
-        outPrint(symbol: .debug, string: string)
+        outAndFilePrint(symbol: .debug, string: string)
     }
     
     static func warning(_ string: String) {
@@ -116,6 +116,9 @@ enum Logger {
             return
         }
         isFirstLog = false
+        guard FileManager.default.fileExists(atPath: url.path) else {
+            return
+        }
         try FileManager.default.removeItem(at: url)
     }
     
