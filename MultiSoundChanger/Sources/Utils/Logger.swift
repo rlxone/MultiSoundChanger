@@ -15,7 +15,7 @@ enum Logger {
         case warning = "🟠"
         case error = "🔴"
     }
-
+    
     private enum Symbol: String {
         case newLine = "\n"
     }
@@ -25,7 +25,7 @@ enum Logger {
         case dataError
     }
     
-    private static var isFirstLog = true
+    private static var isLogFileRemoved = false
     
     private static var bundleIdentifier: String {
         guard let bundleIdentifier = Bundle.main.bundleIdentifier else {
@@ -112,10 +112,10 @@ enum Logger {
     }
     
     private static func removeLogFileIfNeeded(url: URL) throws {
-        guard isFirstLog else {
+        guard !isLogFileRemoved else {
             return
         }
-        isFirstLog = false
+        isLogFileRemoved = true
         guard FileManager.default.fileExists(atPath: url.path) else {
             return
         }
