@@ -1,0 +1,13 @@
+/* 
+  Localization.strings
+  MultiSoundChanger
+
+  Created by Dmitry Medyuho on 22.11.2020.
+  Copyright © 2020 Dmitry Medyuho. All rights reserved.
+*/
+
+"volume" = "Volume:";
+"output" = "Output Device:";
+"quit" = "Quit";
+"sound.preferences" = "Sound Preferences...";
+"audio.devices" = "Audio Devices...";
