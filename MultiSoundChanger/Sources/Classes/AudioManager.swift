@@ -63,11 +63,11 @@ final class AudioManagerImpl: AudioManager {
             
             for device in aggregatedDevices {
                 if audio.isOutputDevice(deviceID: device) {
-                    return audio.getDeviceVolume(deviceID: device).first
+                    return audio.getDeviceVolume(deviceID: device).max()
                 }
             }
         } else {
-            return audio.getDeviceVolume(deviceID: selectedDevice).first
+            return audio.getDeviceVolume(deviceID: selectedDevice).max()
         }
         
         return nil
@@ -78,7 +78,9 @@ final class AudioManagerImpl: AudioManager {
             return
         }
         
-        let isMute = leftChannelLevel < 0.001 && rightChannelLevel < 0.001
+        let isMute = masterChannelLevel < Constants.muteVolumeLowerbound
+            && leftChannelLevel < Constants.muteVolumeLowerbound
+            && rightChannelLevel < Constants.muteVolumeLowerbound
         
         if audio.isAggregateDevice(deviceID: selectedDevice) {
             let aggregatedDevices = audio.getAggregateDeviceSubDeviceList(deviceID: selectedDevice)

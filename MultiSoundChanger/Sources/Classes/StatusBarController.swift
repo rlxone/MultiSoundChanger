@@ -152,20 +152,21 @@ final class StatusBarControllerImpl: StatusBarController {
             
             if device.key == defaultDevice {
                 item.state = .on
-                
-                audioManager.selectDevice(deviceID: defaultDevice)
-                
-                guard let volume = audioManager.getSelectedDeviceVolume() else {
-                    continue
-                }
-                
-                let correctedVolume = audioManager.isMuted ? 0 : volume * 100
-                volumeController.updateSliderVolume(volume: correctedVolume)
-                changeStatusItemImage(value: correctedVolume)
+                selectDevice(device: defaultDevice)
             }
             
             menu.addItem(item)
         }
+    }
+    
+    private func selectDevice(device: AudioDeviceID) {
+        audioManager.selectDevice(deviceID: device)
+        guard let volume = audioManager.getSelectedDeviceVolume() else {
+            return
+        }
+        let correctedVolume = audioManager.isMuted ? 0 : volume * 100
+        volumeController.updateSliderVolume(volume: correctedVolume)
+        changeStatusItemImage(value: correctedVolume)
     }
     
     private func truncate(_ string: String, length: Int, trailing: String = "…") -> String {
@@ -185,7 +186,7 @@ final class StatusBarControllerImpl: StatusBarController {
             if item == sender {
                 item.state = .on
                 let deviceID = AudioDeviceID(item.tag)
-                audioManager.selectDevice(deviceID: deviceID)
+                selectDevice(device: deviceID)
             } else {
                 item.state = NSControl.StateValue.off
             }

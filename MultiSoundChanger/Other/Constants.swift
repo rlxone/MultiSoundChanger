@@ -11,6 +11,7 @@ import Foundation
 enum Constants {
     static let chicletsCount = 16
     static let optionMaxLength = 25
+    static let muteVolumeLowerbound: Float = 0.001
     static let logFilename = "app.log"
     
     enum AppBundleIdentifier {
@@ -45,6 +46,10 @@ enum Constants {
         
         static func selectDevice(deviceID: String) -> String {
             return "Select device id: \(deviceID)"
+        }
+        
+        static func selectedDeviceVolume(volume: String) -> String {
+            return "Selected device volume: \(volume)"
         }
     }
 }

@@ -93,35 +93,38 @@ final class AudioImpl: Audio {
     }
     
     func setDeviceVolume(deviceID: AudioDeviceID, masterChannelLevel: Float, leftChannelLevel: Float, rightChannelLevel: Float) {
-        let channelsCount = 2
-        var channels = [UInt32](repeating: 0, count: channelsCount)
-        var propertySize = UInt32(MemoryLayout<UInt32>.size * channelsCount)
         var leftLevel = leftChannelLevel
         var rigthLevel = rightChannelLevel
         var masterLevel = masterChannelLevel
         
-        var propertyAddress = AudioObjectPropertyAddress(
-            mSelector: AudioObjectPropertySelector(kAudioDevicePropertyPreferredChannelsForStereo),
+        var masterLevelPropertyAddress = AudioObjectPropertyAddress(
+            mSelector: AudioObjectPropertySelector(kAudioDevicePropertyVolumeScalar),
             mScope: AudioObjectPropertyScope(kAudioDevicePropertyScopeOutput),
-            mElement: AudioObjectPropertyElement(kAudioObjectPropertyElementMaster))
+            mElement: AudioObjectPropertyElement(0)
+        )
         
-        let status = AudioObjectGetPropertyData(deviceID, &propertyAddress, 0, nil, &propertySize, &channels)
+        var leftLevelPropertyAddress = AudioObjectPropertyAddress(
+            mSelector: AudioObjectPropertySelector(kAudioDevicePropertyVolumeScalar),
+            mScope: AudioObjectPropertyScope(kAudioDevicePropertyScopeOutput),
+            mElement: AudioObjectPropertyElement(1)
+        )
         
-        if status != noErr {
-            return
-        }
+        var rightLevelPropertyAddress = AudioObjectPropertyAddress(
+            mSelector: AudioObjectPropertySelector(kAudioDevicePropertyVolumeScalar),
+            mScope: AudioObjectPropertyScope(kAudioDevicePropertyScopeOutput),
+            mElement: AudioObjectPropertyElement(2)
+        )
         
-        propertyAddress.mSelector = kAudioDevicePropertyVolumeScalar
-        propertySize = UInt32(MemoryLayout<Float32>.size)
+        var size = UInt32(0)
         
-        propertyAddress.mElement = AudioObjectPropertyElement(0)
-        AudioObjectSetPropertyData(deviceID, &propertyAddress, 0, nil, propertySize, &masterLevel)
+        AudioObjectGetPropertyDataSize(deviceID, &masterLevelPropertyAddress, 0, nil, &size)
+        AudioObjectSetPropertyData(deviceID, &masterLevelPropertyAddress, 0, nil, size, &masterLevel)
         
-        propertyAddress.mElement = channels[0]
-        AudioObjectSetPropertyData(deviceID, &propertyAddress, 0, nil, propertySize, &leftLevel)
+        AudioObjectGetPropertyDataSize(deviceID, &leftLevelPropertyAddress, 0, nil, &size)
+        AudioObjectSetPropertyData(deviceID, &leftLevelPropertyAddress, 0, nil, size, &leftLevel)
         
-        propertyAddress.mElement = channels[1]
-        AudioObjectSetPropertyData(deviceID, &propertyAddress, 0, nil, propertySize, &rigthLevel)
+        AudioObjectGetPropertyDataSize(deviceID, &rightLevelPropertyAddress, 0, nil, &size)
+        AudioObjectSetPropertyData(deviceID, &rightLevelPropertyAddress, 0, nil, size, &rigthLevel)
     }
     
     func setDeviceMute(deviceID: AudioDeviceID, isMute: Bool) {
@@ -149,35 +152,38 @@ final class AudioImpl: Audio {
     }
     
     func getDeviceVolume(deviceID: AudioDeviceID) -> [Float] {
-        let channelsCount = 2
-        var channels = [UInt32](repeating: 0, count: channelsCount)
-        var propertySize = UInt32(MemoryLayout<UInt32>.size * channelsCount)
-        var leftLevel = Float32(-1)
-        var rigthLevel = Float32(-1)
-        var masterLevel = Float32(-1)
+        var leftLevel = Float32(0)
+        var rigthLevel = Float32(0)
+        var masterLevel = Float32(0)
         
-        var propertyAddress = AudioObjectPropertyAddress(
-            mSelector: AudioObjectPropertySelector(kAudioDevicePropertyPreferredChannelsForStereo),
+        var masterLevelPropertyAddress = AudioObjectPropertyAddress(
+            mSelector: AudioObjectPropertySelector(kAudioDevicePropertyVolumeScalar),
             mScope: AudioObjectPropertyScope(kAudioDevicePropertyScopeOutput),
-            mElement: AudioObjectPropertyElement(kAudioObjectPropertyElementMaster))
+            mElement: AudioObjectPropertyElement(0)
+        )
         
-        let status = AudioObjectGetPropertyData(deviceID, &propertyAddress, 0, nil, &propertySize, &channels)
+        var leftLevelPropertyAddress = AudioObjectPropertyAddress(
+            mSelector: AudioObjectPropertySelector(kAudioDevicePropertyVolumeScalar),
+            mScope: AudioObjectPropertyScope(kAudioDevicePropertyScopeOutput),
+            mElement: AudioObjectPropertyElement(1)
+        )
         
-        if status != noErr {
-            return [-1]
-        }
+        var rightLevelPropertyAddress = AudioObjectPropertyAddress(
+            mSelector: AudioObjectPropertySelector(kAudioDevicePropertyVolumeScalar),
+            mScope: AudioObjectPropertyScope(kAudioDevicePropertyScopeOutput),
+            mElement: AudioObjectPropertyElement(2)
+        )
         
-        propertyAddress.mSelector = kAudioDevicePropertyVolumeScalar
-        propertySize = UInt32(MemoryLayout<Float32>.size)
-
-        propertyAddress.mElement = AudioObjectPropertyElement(0)
-        AudioObjectGetPropertyData(deviceID, &propertyAddress, 0, nil, &propertySize, &masterLevel)
+        var size = UInt32(0)
         
-        propertyAddress.mElement = channels[0]
-        AudioObjectGetPropertyData(deviceID, &propertyAddress, 0, nil, &propertySize, &leftLevel)
+        AudioObjectGetPropertyDataSize(deviceID, &masterLevelPropertyAddress, 0, nil, &size)
+        AudioObjectGetPropertyData(deviceID, &masterLevelPropertyAddress, 0, nil, &size, &masterLevel)
         
-        propertyAddress.mElement = channels[1]
-        AudioObjectGetPropertyData(deviceID, &propertyAddress, 0, nil, &propertySize, &rigthLevel)
+        AudioObjectGetPropertyDataSize(deviceID, &leftLevelPropertyAddress, 0, nil, &size)
+        AudioObjectGetPropertyData(deviceID, &leftLevelPropertyAddress, 0, nil, &size, &leftLevel)
+        
+        AudioObjectGetPropertyDataSize(deviceID, &rightLevelPropertyAddress, 0, nil, &size)
+        AudioObjectGetPropertyData(deviceID, &rightLevelPropertyAddress, 0, nil, &size, &rigthLevel)
         
         return [masterLevel, leftLevel, rigthLevel]
     }
@@ -218,7 +224,7 @@ final class AudioImpl: Audio {
             mScope: AudioObjectPropertyScope(kAudioObjectPropertyScopeGlobal),
             mElement: AudioObjectPropertyElement(kAudioObjectPropertyElementMaster))
         
-        _ = AudioObjectGetPropertyDataSize(AudioObjectID(kAudioObjectSystemObject), &propertyAddress, 0, nil, &propertySize)
+        AudioObjectGetPropertyDataSize(AudioObjectID(kAudioObjectSystemObject), &propertyAddress, 0, nil, &propertySize)
         
         return propertySize / UInt32(MemoryLayout<AudioDeviceID>.size)
     }

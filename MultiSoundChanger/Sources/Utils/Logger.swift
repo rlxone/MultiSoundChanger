@@ -16,39 +16,48 @@ enum Logger {
         case error = "🔴"
     }
 
+    private enum Symbol: String {
+        case newLine = "\n"
+    }
+    
     private enum LoggerError: Error {
-        case fileError
+        case fileError(String)
         case dataError
     }
     
-    static func info(_ string: String) {
-        outPrint(symbol: .info, string: string)
-        do {
-            try filePrint(symbol: .info, string: string)
-        } catch let error {
-            outPrint(symbol: .error, string: error.localizedDescription)
+    private static var isFirstLog = true
+    
+    private static var bundleIdentifier: String {
+        guard let bundleIdentifier = Bundle.main.bundleIdentifier else {
+            outPrint(symbol: .error, string: Constants.InnerMessages.bundleIdentifierError)
+            fatalError(Constants.InnerMessages.bundleIdentifierError)
         }
+        return bundleIdentifier
+    }
+    
+    static func info(_ string: String) {
+        outAndFilePrint(symbol: .info, string: string)
     }
     
     static func debug(_ string: String) {
         outPrint(symbol: .debug, string: string)
-        do {
-            try filePrint(symbol: .info, string: string)
-        } catch let error {
-            outPrint(symbol: .error, string: error.localizedDescription)
-        }
     }
     
     static func warning(_ string: String) {
-        outPrint(symbol: .warning, string: string)
-        do {
-            try filePrint(symbol: .info, string: string)
-        } catch let error {
-            outPrint(symbol: .error, string: error.localizedDescription)
-        }
+        outAndFilePrint(symbol: .warning, string: string)
     }
     
     static func error(_ string: String) {
+        outAndFilePrint(symbol: .error, string: string)
+    }
+    
+    private static func getDebugLine(symbol: DebugSymbol, string: String) -> String {
+        let symbol = DebugSymbol.info.rawValue
+        let logDate = getLogDate()
+        return "\(symbol) [\(logDate)] \(string)"
+    }
+    
+    private static func outAndFilePrint(symbol: DebugSymbol, string: String) {
         outPrint(symbol: .error, string: string)
         do {
             try filePrint(symbol: .info, string: string)
@@ -57,46 +66,61 @@ enum Logger {
         }
     }
     
-    private static func getLine(symbol: DebugSymbol, string: String) -> String {
-        let symbol = DebugSymbol.info.rawValue
-        let logDate = getLogDate()
-        return "\(symbol) [\(logDate)] \(string)"
-    }
-    
     private static func outPrint(symbol: DebugSymbol, string: String) {
-        let line = getLine(symbol: symbol, string: string)
+        let line = getDebugLine(symbol: symbol, string: string)
         print(line)
     }
     
-    private static func filePrint(symbol: DebugSymbol, string: String) throws {
+    private static func filePrint(symbol: DebugSymbol, string: String, filename: String = Constants.logFilename) throws {
         do {
-            var logUrl = try FileManager.default.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
-            logUrl.appendPathComponent(bundleIdentifier)
-            logUrl.appendPathComponent(Constants.logFilename)
-            if FileManager.default.fileExists(atPath: logUrl.path) {
-                let fileHandle = try FileHandle(forWritingTo: logUrl)
-                let line = getLine(symbol: symbol, string: string) + "\n"
-                guard let data = line.data(using: .utf8) else {
-                    throw LoggerError.dataError
-                }
-                fileHandle.seekToEndOfFile()
-                fileHandle.write(data)
-                fileHandle.closeFile()
-            } else {
-                let line = getLine(symbol: symbol, string: string) + "\n"
-                try line.write(to: logUrl, atomically: true, encoding: .utf8)
-            }
-        } catch {
-            throw LoggerError.fileError
+            var directoryUrl = try FileManager.default.url(
+                for: .cachesDirectory,
+                in: .userDomainMask,
+                appropriateFor: nil,
+                create: true
+            )
+            directoryUrl.appendPathComponent(bundleIdentifier)
+            try createDirectoryIfNeeded(url: directoryUrl)
+            let fileUrl = directoryUrl.appendingPathComponent(Constants.logFilename, isDirectory: false)
+            let line = wrapNewLine(getDebugLine(symbol: symbol, string: string))
+            try removeLogFileIfNeeded(url: fileUrl)
+            try appendToFile(url: fileUrl, content: line)
+        } catch let error {
+            throw LoggerError.fileError(error.localizedDescription)
         }
     }
     
-    private static var bundleIdentifier: String {
-        guard let bundleIdentifier = Bundle.main.bundleIdentifier else {
-            outPrint(symbol: .error, string: Constants.InnerMessages.bundleIdentifierError)
-            fatalError(Constants.InnerMessages.bundleIdentifierError)
+    private static func appendToFile(url: URL, content: String) throws {
+        if FileManager.default.fileExists(atPath: url.path) {
+            let fileHandle = try FileHandle(forWritingTo: url)
+            guard let data = content.data(using: .utf8) else {
+                throw LoggerError.dataError
+            }
+            fileHandle.seekToEndOfFile()
+            fileHandle.write(data)
+            fileHandle.closeFile()
+        } else {
+            try content.write(to: url, atomically: true, encoding: .utf8)
         }
-        return bundleIdentifier
+    }
+    
+    private static func createDirectoryIfNeeded(url: URL) throws {
+        guard !FileManager.default.fileExists(atPath: url.path) else {
+            return
+        }
+        try FileManager.default.createDirectory(at: url, withIntermediateDirectories: false, attributes: nil)
+    }
+    
+    private static func removeLogFileIfNeeded(url: URL) throws {
+        guard isFirstLog else {
+            return
+        }
+        isFirstLog = false
+        try FileManager.default.removeItem(at: url)
+    }
+    
+    private static func wrapNewLine(_ string: String) -> String {
+        return string + Symbol.newLine.rawValue
     }
     
     private static func getLogDate() -> String {

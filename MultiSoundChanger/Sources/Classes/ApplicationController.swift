@@ -64,5 +64,7 @@ extension ApplicationControllerImp: MediaManagerDelegate {
         
         statusBarController.updateVolume(value: correctedVolume)
         mediaManager.showOSD(volume: correctedVolume, chicletsCount: Constants.chicletsCount)
+        
+        Logger.debug(Constants.InnerMessages.selectedDeviceVolume(volume: String(correctedVolume)))
     }
 }
