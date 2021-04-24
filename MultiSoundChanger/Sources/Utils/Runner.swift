@@ -2,8 +2,8 @@
 //  Runner.swift
 //  MultiSoundChanger
 //
-//  Created by Dmitry on 22.04.21.
-//  Copyright © 2021 mityny. All rights reserved.
+//  Created by Dmitry Medyuho on 22.04.21.
+//  Copyright © 2021 Dmitry Medyuho. All rights reserved.
 //
 
 import Cocoa

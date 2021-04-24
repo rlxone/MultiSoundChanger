@@ -48,7 +48,7 @@ final class AudioImpl: Audio {
             mScope: AudioObjectPropertyScope(kAudioDevicePropertyScopeOutput),
             mElement: AudioObjectPropertyElement(kAudioObjectPropertyElementMaster))
         
-        _ = AudioObjectGetPropertyDataSize(deviceID, &propertyAddress, 0, nil, &propertySize)
+        AudioObjectGetPropertyDataSize(deviceID, &propertyAddress, 0, nil, &propertySize)
         
         return propertySize > 0
     }
@@ -237,7 +237,7 @@ final class AudioImpl: Audio {
             mScope: AudioObjectPropertyScope(kAudioObjectPropertyScopeGlobal),
             mElement: AudioObjectPropertyElement(kAudioObjectPropertyElementMaster))
         
-        _ = AudioObjectGetPropertyDataSize(deviceID, &propertyAddress, 0, nil, &propertySize)
+        AudioObjectGetPropertyDataSize(deviceID, &propertyAddress, 0, nil, &propertySize)
         
         return propertySize / UInt32(MemoryLayout<AudioDeviceID>.size)
     }
