@@ -12,8 +12,6 @@ import Foundation
 // MARK: - Protocols
 
 protocol AudioManager: class {
-    func getDefaultOutputDevice() -> AudioDeviceID
-    func getOutputDevices() -> [AudioDeviceID: String]?
     func selectDevice(deviceID: AudioDeviceID)
     func getSelectedDeviceVolume() -> Float?
     func setSelectedDeviceVolume(masterChannelLevel: Float, leftChannelLevel: Float, rightChannelLevel: Float)

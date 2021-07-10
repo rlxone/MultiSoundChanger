@@ -8,6 +8,7 @@
 
 import Foundation
 import MediaKeyTap
+import SimplyCoreAudio
 
 // MARK: - Protocols
 
@@ -18,9 +19,10 @@ protocol ApplicationController: class {
 // MARK: - Implementation
 
 final class ApplicationControllerImp: ApplicationController {
+    private lazy var simplyCA: SimplyCoreAudio = SimplyCoreAudio()
     private lazy var audioManager: AudioManager = AudioManagerImpl()
     private lazy var mediaManager: MediaManager = MediaManagerImpl(delegate: self)
-    private lazy var statusBarController: StatusBarController = StatusBarControllerImpl(audioManager: audioManager)
+    private lazy var statusBarController: StatusBarController = StatusBarControllerImpl(audioManager: audioManager, simplyCoreAudio: simplyCA)
     
     var observers: [NSObjectProtocol] = []
 

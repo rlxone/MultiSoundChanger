@@ -6,6 +6,7 @@
 //  Copyright © 2020 Dmitry Medyuho. All rights reserved.
 //
 
+import SimplyCoreAudio
 import AudioToolbox
 import Cocoa
 
@@ -37,9 +38,11 @@ final class StatusBarControllerImpl: StatusBarController {
     private let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
     private let volumeController: VolumeViewController
     private let audioManager: AudioManager
+    private let simplyCA: SimplyCoreAudio
     
-    init(audioManager: AudioManager) {
+    init(audioManager: AudioManager, simplyCoreAudio: SimplyCoreAudio) {
         self.audioManager = audioManager
+        self.simplyCA = simplyCoreAudio
         
         self.volumeController = Stories.volume.controller(VolumeViewController.self)
         self.volumeController.audioManager = audioManager
@@ -136,24 +139,22 @@ final class StatusBarControllerImpl: StatusBarController {
     }
     
     private func setOutputDeviceList(for menu: NSMenu) {
-        guard let devices = audioManager.getOutputDevices() else {
-            return
-        }
+        let devices = simplyCA.allOutputDevices
         
-        let defaultDevice = audioManager.getDefaultOutputDevice()
+        let defaultDevice = simplyCA.defaultOutputDevice
         
         for device in devices {
             let item = NSMenuItem(
-                title: truncate(device.value, length: Constants.optionMaxLength),
+                title: truncate(device.name, length: Constants.optionMaxLength),
                 action: #selector(menuItemAction),
                 keyEquivalent: String()
             )
             item.target = self
-            item.tag = Int(device.key)
+            item.tag = Int(device.id)
             
-            if device.key == defaultDevice {
+            if device.id == defaultDevice?.id {
                 item.state = .on
-                selectDevice(device: defaultDevice)
+                selectDevice(device: device.id)
             }
             
             menu.addItem(item)
