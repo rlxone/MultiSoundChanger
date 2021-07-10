@@ -29,7 +29,7 @@ final class AudioManagerImpl: AudioManager {
     private let audio: Audio = AudioImpl()
     private let devices: [AudioDeviceID: String]?
     private var selectedDevice: AudioDeviceID?
-    
+
     init() {
         devices = audio.getOutputDevices()
         printDevices()

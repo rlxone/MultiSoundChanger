@@ -51,7 +51,8 @@ final class StatusBarControllerImpl: StatusBarController {
             button.image = Images.volumeImage1
         }
         
-        let menu = NSMenu()
+        let menu = statusItem.menu ?? NSMenu()
+        menu.removeAllItems()
         menu.autoenablesItems = false
         
         let volumeItem = getMenuItem(by: .volume)

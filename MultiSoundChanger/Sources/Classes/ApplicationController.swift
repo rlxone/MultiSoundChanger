@@ -22,9 +22,29 @@ final class ApplicationControllerImp: ApplicationController {
     private lazy var mediaManager: MediaManager = MediaManagerImpl(delegate: self)
     private lazy var statusBarController: StatusBarController = StatusBarControllerImpl(audioManager: audioManager)
     
+    var observers: [NSObjectProtocol] = []
+
     func start() {
         statusBarController.createMenu()
         mediaManager.listenMediaKeyTaps()
+
+        observers.append(NotificationCenter.default.addObserver(forName: .deviceListChanged,
+                                                               object: nil,
+                                                                queue: .main) { [weak self] _ in
+            self?.statusBarController.createMenu()
+        })
+
+        observers.append(NotificationCenter.default.addObserver(forName: .defaultOutputDeviceChanged,
+                                                               object: nil,
+                                                                queue: .main) { [weak self] _ in
+            self?.statusBarController.createMenu()
+        })
+    }
+
+    deinit {
+        for observer in observers {
+            NotificationCenter.default.removeObserver(observer)
+        }
     }
 }
 
