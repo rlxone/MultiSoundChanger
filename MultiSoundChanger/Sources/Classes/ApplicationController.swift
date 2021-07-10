@@ -9,6 +9,7 @@
 import Foundation
 import MediaKeyTap
 import SimplyCoreAudio
+import UserNotifications
 
 // MARK: - Protocols
 
@@ -40,6 +41,7 @@ final class ApplicationControllerImp: ApplicationController {
                                                                object: nil,
                                                                 queue: .main) { [weak self] _ in
             self?.statusBarController.createMenu()
+            self?.sendDeviceChangedNotification()
         })
     }
 
@@ -88,5 +90,36 @@ extension ApplicationControllerImp: MediaManagerDelegate {
         mediaManager.showOSD(volume: correctedVolume, chicletsCount: Constants.chicletsCount)
         
         Logger.debug(Constants.InnerMessages.selectedDeviceVolume(volume: String(correctedVolume)))
+    }
+}
+
+extension ApplicationControllerImp {
+    func sendDeviceChangedNotification() {
+        if #available(macOS 10.14, *) {
+            let notificationCenter = UNUserNotificationCenter.current()
+            notificationCenter.requestAuthorization(options: [.alert]) { _, error in
+                if error != nil {
+                    print("Failed to add a notification request: \(String(describing: error))")
+                }
+                
+                let selectedDevice = self.simplyCA.defaultOutputDevice
+                
+                let content = UNMutableNotificationContent()
+                content.title = "Ouput Device Changed"
+                content.body = selectedDevice?.name ?? "N/A"
+                let uuidString = UUID().uuidString
+                
+                let date = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: Date())
+                let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: false)
+                
+                let request = UNNotificationRequest(identifier: uuidString, content: content, trigger: trigger)
+
+                UNUserNotificationCenter.current().add(request) { error in
+                    if error != nil {
+                        print("Failed to add a notification request: \(String(describing: error))")
+                    }
+                }
+            }
+        }
     }
 }
