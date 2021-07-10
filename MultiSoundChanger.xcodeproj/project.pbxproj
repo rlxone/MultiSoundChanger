@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4743EFAB1E91493B0032F5AA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4743EFAA1E91493B0032F5AA /* AppDelegate.swift */; };
 		6985C6FE251951F8003C2FDB /* OSD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6985C6FD251951F8003C2FDB /* OSD.framework */; };
+		D914CAC22698034D00FB55D2 /* ScrollableSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D914CAC12698034D00FB55D2 /* ScrollableSlider.swift */; };
 		E4FFDC0757FD125F92CC0F62 /* Pods_MultiSoundChanger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C34C05E9BD81D579A0C4957 /* Pods_MultiSoundChanger.framework */; };
 		F312C54E25B3741C00205846 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F373D8C02561D24600642274 /* Main.storyboard */; };
 		F312C55025B3742200205846 /* Volume.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F373D8BC2561D22000642274 /* Volume.storyboard */; };
@@ -36,6 +37,7 @@
 		6985C6FD251951F8003C2FDB /* OSD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OSD.framework; sourceTree = "<group>"; };
 		6FD0ED04AFD1CC1242C9B3B3 /* Pods-MultiSoundChanger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MultiSoundChanger.debug.xcconfig"; path = "Target Support Files/Pods-MultiSoundChanger/Pods-MultiSoundChanger.debug.xcconfig"; sourceTree = "<group>"; };
 		D184B2CD842B856AFFE7DF7E /* Pods-MultiSoundChanger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MultiSoundChanger.release.xcconfig"; path = "Target Support Files/Pods-MultiSoundChanger/Pods-MultiSoundChanger.release.xcconfig"; sourceTree = "<group>"; };
+		D914CAC12698034D00FB55D2 /* ScrollableSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableSlider.swift; sourceTree = "<group>"; };
 		F3433FCA25B36E16009AAE86 /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
 		F373D8B02561D1A600642274 /* StatusBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusBarController.swift; sourceTree = "<group>"; };
 		F373D8B12561D1A600642274 /* AudioManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
@@ -180,6 +182,7 @@
 			children = (
 				F373D8BC2561D22000642274 /* Volume.storyboard */,
 				F373D8BD2561D22000642274 /* VolumeViewController.swift */,
+				D914CAC12698034D00FB55D2 /* ScrollableSlider.swift */,
 			);
 			path = Volume;
 			sourceTree = "<group>";
@@ -363,6 +366,7 @@
 				F373D8C82561D2B000642274 /* Extensions.swift in Sources */,
 				F392597C2631ACE700B7AD62 /* Runner.swift in Sources */,
 				F3433FCB25B36E16009AAE86 /* Images.swift in Sources */,
+				D914CAC22698034D00FB55D2 /* ScrollableSlider.swift in Sources */,
 				F3925975262F2B8000B7AD62 /* ApplicationController.swift in Sources */,
 				F373D8C62561D2A600642274 /* Audio.swift in Sources */,
 				F37C2ED1256AAA4C001C3D36 /* Strings.swift in Sources */,
