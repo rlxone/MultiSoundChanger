@@ -25,14 +25,24 @@ protocol AudioManager: class {
 
 final class AudioManagerImpl: AudioManager {
     private let audio: Audio = AudioImpl()
-    private let devices: [AudioDeviceID: String]?
+    private var devices: [AudioDeviceID: String]?
     private var selectedDevice: AudioDeviceID?
 
-    init() {
-        devices = audio.getOutputDevices()
-        printDevices()
+    private lazy var observer = NotificationCenter.default.addObserver(forName: .deviceListChanged,
+                                                                       object: nil,
+                                                                        queue: .main) { [weak self] _ in
+        self?.refreshDevices()
     }
-    
+
+    init() {
+        refreshDevices()
+    }
+
+    func refreshDevices() {
+        self.devices = audio.getOutputDevices()
+        self.printDevices()
+    }
+
     func getDefaultOutputDevice() -> AudioDeviceID {
         return audio.getDefaultOutputDevice()
     }
