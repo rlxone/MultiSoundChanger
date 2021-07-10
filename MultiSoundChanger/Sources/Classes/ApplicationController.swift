@@ -41,6 +41,14 @@ final class ApplicationControllerImp: ApplicationController {
                                                                 queue: .main) { [weak self] _ in
             self?.statusBarController.createMenu()
         })
+        
+        observers.append(NotificationCenter.default.addObserver(forName: .deviceVolumeDidChange,
+                                                               object: nil,
+                                                                queue: .main) { [weak self] _ in
+            if let volume = self?.audioManager.getSelectedDeviceVolume() {
+                self?.statusBarController.updateVolume(value: volume * 100)
+            }
+        })
     }
 
     deinit {
