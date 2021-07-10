@@ -37,6 +37,10 @@ final class AudioManagerImpl: AudioManager {
     init() {
         refreshDevices()
     }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(observer)
+    }
 
     func refreshDevices() {
         self.devices = audio.getOutputDevices()
