@@ -12,8 +12,6 @@ import Foundation
 // MARK: - Protocols
 
 protocol AudioManager: class {
-    func getDefaultOutputDevice() -> AudioDeviceID
-    func getOutputDevices() -> [AudioDeviceID: String]?
     func selectDevice(deviceID: AudioDeviceID)
     func getSelectedDeviceVolume() -> Float?
     func setSelectedDeviceVolume(masterChannelLevel: Float, leftChannelLevel: Float, rightChannelLevel: Float)
@@ -27,14 +25,28 @@ protocol AudioManager: class {
 
 final class AudioManagerImpl: AudioManager {
     private let audio: Audio = AudioImpl()
-    private let devices: [AudioDeviceID: String]?
+    private var devices: [AudioDeviceID: String]?
     private var selectedDevice: AudioDeviceID?
-    
+
+    private lazy var observer = NotificationCenter.default.addObserver(forName: .deviceListChanged,
+                                                                       object: nil,
+                                                                        queue: .main) { [weak self] _ in
+        self?.refreshDevices()
+    }
+
     init() {
-        devices = audio.getOutputDevices()
-        printDevices()
+        refreshDevices()
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(observer)
+    }
+
+    func refreshDevices() {
+        self.devices = audio.getOutputDevices()
+        self.printDevices()
+    }
+
     func getDefaultOutputDevice() -> AudioDeviceID {
         return audio.getDefaultOutputDevice()
     }
