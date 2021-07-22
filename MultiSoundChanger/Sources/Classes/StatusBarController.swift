@@ -162,7 +162,15 @@ final class StatusBarControllerImpl: StatusBarController {
     }
     
     private func selectDevice(device: AudioDeviceID) {
-        audioManager.selectDevice(deviceID: device)
+        guard let new_device = simplyCA.allDevices.first(where: { $0.id == device }) else {
+            return
+        }
+        new_device.isDefaultOutputDevice = true
+        new_device.isDefaultSystemOutputDevice = true
+        if new_device.isOutputOnlyDevice == false {
+            new_device.isDefaultInputDevice = true
+        }
+        
         guard let volume = audioManager.getSelectedDeviceVolume() else {
             return
         }
